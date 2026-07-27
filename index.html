@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="vi">
-<head>
+<html lang="vi"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trải nghiệm homestay nghỉ dưỡng tối giản, sang trọng tại Lạc Thủy, Hòa Bình. Cabin view hồ Đầm Đa, bungalow gỗ thung lũng, nhà sàn Mường hiện đại. Đặt phòng nhanh qua Hotline & Zalo.">
+    <meta name="description" content="Trải nghiệm homestay nghỉ dưỡng tối giản, sang trọng tại Lạc Thủy, Hòa Bình. Cabin view hồ Đầm Đa, bungalow gỗ thung lũng, nhà sàn Mường hiện đại. Đặt phòng nhanh qua Hotline &amp; Zalo.">
     <meta name="keywords" content="homestay lac thuy, homestay hoa binh, dam da cabin, mo village, du lich hoa binh, resort hoa binh, amani lac thuy">
     <meta name="author" content="Amani Lạc Thủy">
     
@@ -17,8 +16,8 @@
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
     
     <!-- FontAwesome for Minimalist Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,7 +25,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark-theme">
     <!-- Admin Control Bar -->
     <div id="admin-bar" class="admin-bar">
         <div class="container admin-bar-container">
@@ -42,14 +41,14 @@
     </div>
 
     <!-- Top Progress Bar -->
-    <div id="scroll-progress" class="scroll-progress"></div>
+    <div id="scroll-progress" class="scroll-progress" style="width: 96.8959%;"></div>
 
     <!-- Navigation Header -->
-    <header class="header" id="main-header">
+    <header class="header scrolled" id="main-header">
         <div class="container header-container">
             <a href="#" class="logo" id="site-logo">
-                <span class="logo-serif" data-key="logo-serif">Amani</span>
-                <span class="logo-sans" data-key="logo-sans">Lạc Thủy</span>
+                <span class="logo-serif" data-key="logo-serif">&nbsp; Tĩnh</span>
+                <span class="logo-sans" data-key="logo-sans">Home Stay</span>
             </a>
             
             <nav class="nav-menu" id="nav-menu">
@@ -63,9 +62,7 @@
             </nav>
             
             <div class="header-actions">
-                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"><i class="fa-solid fa-sun"></i></button>
                 <a href="#rooms" class="btn-primary nav-cta-btn">Đặt Không Gian</a>
                 <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Open Menu">
                     <span class="bar"></span>
@@ -82,39 +79,39 @@
             <div class="hero-background" id="hero-bg" data-bg-key="hero-bg" style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('assets/hero_homestay.jpg');"></div>
             <div class="container hero-container">
                 <div class="hero-content">
-                    <span class="hero-subtitle scroll-reveal" data-key="hero-subtitle">Về với thung lũng Lạc Thủy</span>
-                    <h1 class="hero-title scroll-reveal" data-key="hero-title">Tìm lại sự tĩnh lặng<br>giữa thiên nhiên Hòa Bình</h1>
-                    <p class="hero-desc scroll-reveal" data-key="hero-desc">Nơi những khối kiến trúc tối giản hòa quyện vào núi đá vôi kỳ vĩ và làn sương sớm bình yên. Cách Hà Nội chỉ 80km, một chặng đường vừa đủ để rũ bỏ mọi ồn ào phố thị.</p>
-                    <div class="hero-cta scroll-reveal">
+                    <span class="hero-subtitle scroll-reveal revealed" data-key="hero-subtitle">Về với thung lũng Vườn tĩnh</span>
+                    <h1 class="hero-title scroll-reveal revealed" data-key="hero-title">Tìm lại sự tĩnh lặng<br>giữa thiên nhiên Hòa Bình</h1>
+                    <p class="hero-desc scroll-reveal revealed" data-key="hero-desc">Nơi những khối kiến trúc tối giản hòa quyện vào núi đá vôi kỳ vĩ và làn sương sớm bình yên. Cách Hà Nội chỉ 80km, một chặng đường vừa đủ để rũ bỏ mọi ồn ào phố thị.</p>
+                    <div class="hero-cta scroll-reveal revealed">
                         <a href="#rooms" class="btn-primary">Khám Phá Phòng</a>
-                        <a href="tel:+84987654321" class="btn-secondary" id="hotline-btn-hero"><i class="fa-solid fa-phone"></i> Hotline Đặt Phòng</a>
+                        <a href="tel:0987654321" class="btn-secondary" id="hotline-btn-hero"><i class="fa-solid fa-phone"></i> Hotline Đặt Phòng</a>
                     </div>
                 </div>
                 
                 <!-- Quick Search Booking Widget -->
-                <div class="quick-booking-widget scroll-reveal">
+                <div class="quick-booking-widget scroll-reveal revealed">
                     <form id="quick-booking-form" class="quick-form">
                         <div class="form-group">
-                            <label for="quick-room" data-key="lbl-quick-room">Chọn Không Gian</label>
-                            <select id="quick-room" required>
+                            <label data-key="lbl-quick-room" for="quick-room">Chọn Không Gian</label>
+                            <select id="quick-room" required="">
                                 <option value="mo-village">Mơ Village Bungalow</option>
                                 <option value="dam-da">Đầm Đa Lake Cabin</option>
                                 <option value="lac-thuy-retreat">Lạc Thủy Retreat</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="quick-checkin" data-key="lbl-quick-checkin">Nhận Phòng</label>
-                            <input type="date" id="quick-checkin" required>
+                            <label data-key="lbl-quick-checkin" for="quick-checkin">Nhận Phòng</label>
+                            <input type="date" id="quick-checkin" required="" min="2026-07-27">
                         </div>
                         <div class="form-group">
-                            <label for="quick-checkout" data-key="lbl-quick-checkout">Trả Phòng</label>
-                            <input type="date" id="quick-checkout" required>
+                            <label data-key="lbl-quick-checkout" for="quick-checkout">Trả Phòng</label>
+                            <input type="date" id="quick-checkout" required="" min="2026-07-28">
                         </div>
                         <div class="form-group">
-                            <label for="quick-guests" data-key="lbl-quick-guests">Khách</label>
+                            <label data-key="lbl-quick-guests" for="quick-guests">Khách</label>
                             <select id="quick-guests">
                                 <option value="1">1 Người</option>
-                                <option value="2" selected>2 Người</option>
+                                <option value="2" selected="">2 Người</option>
                                 <option value="3">3 Người</option>
                                 <option value="4">4 Người+</option>
                             </select>
@@ -133,20 +130,16 @@
         <section class="about-section" id="about">
             <div class="container">
                 <div class="section-grid">
-                    <div class="about-visual scroll-reveal">
+                    <div class="about-visual scroll-reveal revealed">
                         <div class="image-wrapper-decorative">
                             <img src="assets/room_zen.jpg" alt="Amani Lạc Thủy Zen Space" class="about-img" data-img-key="about-img">
                         </div>
                     </div>
-                    <div class="about-content scroll-reveal">
-                        <span class="section-label" data-key="about-label">Triết lý của Amani</span>
+                    <div class="about-content scroll-reveal revealed">
+                        <span class="section-label" data-key="about-label">Triết lý của TĨNH HOMESTAY</span>
                         <h2 class="section-title" data-key="about-title">Nghỉ dưỡng tối giản, đánh thức giác quan</h2>
-                        <p class="section-text" data-key="about-text-1">
-                            Amani Lạc Thủy không đơn thuần là một nơi lưu trú. Chúng tôi xây dựng những không gian tĩnh lặng, lược bỏ mọi chi tiết rườm rà để nhường chỗ cho cảnh quan hùng vĩ của thung lũng đá vôi Hòa Bình.
-                        </p>
-                        <p class="section-text" data-key="about-text-2">
-                            Mỗi ô cửa kính lớn tại Amani là một bức tranh thiên nhiên chuyển động theo thời gian: từ làn sương sớm bảng lảng trên hồ Đầm Đa cho đến ánh hoàng hôn dịu ngọt buông sau rặng núi. Tại đây, bạn được thở chậm, sống chậm và kết nối lại với chính mình.
-                        </p>
+                        <p class="section-text" data-key="about-text-1">TĨNH HOMESTAY không đơn thuần là một nơi lưu trú. Chúng tôi xây dựng những không gian tĩnh lặng, lược bỏ mọi chi tiết rườm rà để nhường chỗ cho cảnh quan hùng vĩ của thung lũng đá vôi Hòa Bình.</p>
+                        <p class="section-text" data-key="about-text-2">Mỗi ô cửa kính lớn tại Amani là một bức tranh thiên nhiên chuyển động theo thời gian: từ làn sương sớm bảng lảng trên hồ Đầm Đa cho đến ánh hoàng hôn dịu ngọt buông sau rặng núi. Tại đây, bạn được thở chậm, sống chậm và kết nối lại với chính mình.</p>
                         <div class="stats-row">
                             <div class="stat-item">
                                 <span class="stat-number" data-key="stat-num-1">03</span>
@@ -249,12 +242,10 @@
         <section class="experiences-section" id="experiences">
             <div class="container">
                 <div class="section-grid align-center">
-                    <div class="experiences-content scroll-reveal">
+                    <div class="experiences-content scroll-reveal revealed">
                         <span class="section-label" data-key="exp-label">Kết nối địa phương</span>
                         <h2 class="section-title" data-key="exp-title">Hòa nhịp sống bản địa Lạc Thủy</h2>
-                        <p class="section-text" data-key="exp-desc">
-                            Không chỉ dừng lại ở giấc ngủ ngon, Amani mang đến những hành trình trải nghiệm bình dị nhưng sâu sắc, được thiết kế riêng để bạn khám phá vẻ đẹp tự nhiên và văn hóa đặc trưng của mảnh đất Hòa Bình.
-                        </p>
+                        <p class="section-text" data-key="exp-desc">Không chỉ dừng lại ở giấc ngủ ngon, Amani mang đến những hành trình trải nghiệm bình dị nhưng sâu sắc, được thiết kế riêng để bạn khám phá vẻ đẹp tự nhiên và văn hóa đặc trưng của mảnh đất Hòa Bình.</p>
                         
                         <div class="experience-list">
                             <div class="exp-item">
@@ -280,7 +271,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="experiences-visual scroll-reveal">
+                    <div class="experiences-visual scroll-reveal revealed">
                         <div class="image-wrapper-decorative">
                             <img src="assets/room_forest.jpg" alt="Chèo thuyền hồ Lạc Thủy Hòa Bình" class="exp-img" data-img-key="exp-img">
                         </div>
@@ -298,9 +289,9 @@
                 </div>
                 
                 <div class="faqs-wrapper max-width-md">
-                    <div class="faq-item scroll-reveal">
+                    <div class="faq-item scroll-reveal revealed">
                         <button class="faq-question">
-                            <span data-key="faq-q-1">Di chuyển từ Hà Nội đến Amani Lạc Thủy như thế nào?</span>
+                            <span data-key="faq-q-1">Di chuyển từ Hà Nội đến TĨNH HOMESTAY như thế nào?</span>
                             <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
                         </button>
                         <div class="faq-answer">
@@ -308,7 +299,7 @@
                         </div>
                     </div>
 
-                    <div class="faq-item scroll-reveal">
+                    <div class="faq-item scroll-reveal revealed">
                         <button class="faq-question">
                             <span data-key="faq-q-2">Thời gian nhận và trả phòng quy định ra sao?</span>
                             <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
@@ -320,7 +311,7 @@
 
                     <div class="faq-item scroll-reveal">
                         <button class="faq-question">
-                            <span data-key="faq-q-3">Amani có chuẩn bị sẵn nguyên liệu để tự nấu ăn hoặc BBQ không?</span>
+                            <span data-key="faq-q-3">TĨNH HOMESTAY có chuẩn bị sẵn nguyên liệu để tự nấu ăn hoặc BBQ không?</span>
                             <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
                         </button>
                         <div class="faq-answer">
@@ -344,13 +335,13 @@
         <!-- Contact Section -->
         <section class="contact-section" id="contact">
             <div class="container">
-                <div class="contact-card scroll-reveal">
+                <div class="contact-card scroll-reveal revealed">
                     <div class="contact-info-panel">
-                        <h2 class="contact-panel-title" data-key="contact-title">Liên hệ Amani</h2>
+                        <h2 class="contact-panel-title" data-key="contact-title">Liên hệ TĨNH HOMESTAY</h2>
                         <p class="contact-panel-desc" data-key="contact-desc">Gửi yêu cầu đặt phòng cho chúng tôi hoặc kết nối trực tiếp qua Zalo/Hotline để được phản hồi trong vòng 5 phút.</p>
                         
                         <div class="contact-channels">
-                            <a href="tel:+84987654321" class="contact-channel-item" id="hotline-link">
+                            <a href="tel:0987654321" class="contact-channel-item" id="hotline-link">
                                 <div class="channel-icon phone-icon"><i class="fa-solid fa-phone"></i></div>
                                 <div class="channel-detail">
                                     <span>Hotline Đặt Phòng</span>
@@ -384,27 +375,27 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="contact-name">Họ và Tên</label>
-                                    <input type="text" name="name" id="contact-name" placeholder="Nguyễn Văn A" required>
+                                    <input type="text" name="name" id="contact-name" placeholder="Nguyễn Văn A" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="contact-phone">Số Điện Thoại</label>
-                                    <input type="tel" name="phone" id="contact-phone" placeholder="0901234567" required>
+                                    <input type="tel" name="phone" id="contact-phone" placeholder="0901234567" required="">
                                 </div>
                             </div>
                             
                             <div class="form-group">
                                 <label for="contact-email">Địa chỉ Email</label>
-                                <input type="email" name="email" id="contact-email" placeholder="email@gmail.com" required>
+                                <input type="email" name="email" id="contact-email" placeholder="email@gmail.com" required="">
                             </div>
                             
                             <div class="form-group">
                                 <label for="contact-message">Lời nhắn / Yêu cầu đặt phòng</label>
-                                <textarea name="message" id="contact-message" rows="4" placeholder="Bạn quan tâm đến phòng nào và dự kiến lưu trú khi nào..." required></textarea>
+                                <textarea name="message" id="contact-message" rows="4" placeholder="Bạn quan tâm đến phòng nào và dự kiến lưu trú khi nào..." required=""></textarea>
                             </div>
                             
                             <!-- Netlify Bot Poisoning protection (HoneyPot) -->
                             <div class="hidden-honeypot">
-                                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                                <label>Don't fill this out if you're human: <input name="bot-field"></label>
                             </div>
 
                             <button type="submit" class="btn-primary full-width">Gửi Yêu Cầu</button>
@@ -420,8 +411,8 @@
         <div class="container footer-container">
             <div class="footer-brand">
                 <a href="#" class="logo">
-                    <span class="logo-serif" data-key="logo-serif">Amani</span>
-                    <span class="logo-sans" data-key="logo-sans">Lạc Thủy</span>
+                    <span class="logo-serif" data-key="logo-serif">&nbsp; Tĩnh</span>
+                    <span class="logo-sans" data-key="logo-sans">Home Stay</span>
                 </a>
                 <p class="footer-brand-desc" data-key="footer-desc">Thương hiệu nghỉ dưỡng tối giản hướng tới sự cân bằng tinh thần và gần gũi với thiên nhiên nguyên bản tại Hòa Bình.</p>
                 <div class="social-links">
@@ -452,8 +443,8 @@
         </div>
         <div class="footer-bottom">
             <div class="container footer-bottom-container">
-                <p>&copy; 2026 Amani Lạc Thủy. All rights reserved. Designed for Netlify hosting.</p>
-                <p class="visitor-counter-wrapper"><i class="fa-solid fa-eye"></i> Lượt truy cập: <span id="footer-visit-count" style="font-weight: 500; color: var(--accent-gold);">Đang tải...</span></p>
+                <p>© 2026 Amani Lạc Thủy. All rights reserved. Designed for Netlify hosting.</p>
+                <p class="visitor-counter-wrapper"><i class="fa-solid fa-eye"></i> Lượt truy cập: <span id="footer-visit-count" style="font-weight: 500; color: var(--accent-gold);">390</span></p>
                 <p class="dev-credit">
                     <span class="admin-link-wrapper">
                         <a href="#" id="admin-login-trigger" class="admin-login-link"><i class="fa-solid fa-lock"></i> Quản trị viên</a>
@@ -468,11 +459,11 @@
     <div class="modal" id="booking-modal">
         <div class="modal-overlay" id="modal-overlay"></div>
         <div class="modal-content">
-            <button class="modal-close-btn" id="modal-close" aria-label="Đóng cửa sổ">&times;</button>
+            <button class="modal-close-btn" id="modal-close" aria-label="Đóng cửa sổ">×</button>
             <div class="modal-body">
                 <div class="modal-header-section">
                     <h3 class="modal-title">Đặt chỗ tại Amani</h3>
-                    <p class="modal-subtitle">Hoàn tất biểu mẫu dưới đây hoặc gọi ngay <a href="tel:+84987654321" class="text-underline" id="hotline-btn-modal">0987 654 321</a> để giữ chỗ tức thì.</p>
+                    <p class="modal-subtitle">Hoàn tất biểu mẫu dưới đây hoặc gọi ngay <a href="tel:0987654321" class="text-underline" id="hotline-btn-modal">0987 654 321</a> để giữ chỗ tức thì.</p>
                 </div>
                 
                 <div class="modal-grid">
@@ -483,37 +474,37 @@
                             
                             <div class="form-group">
                                 <label for="book-name">Họ và Tên</label>
-                                <input type="text" name="name" id="book-name" required>
+                                <input type="text" name="name" id="book-name" required="">
                             </div>
                             
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="book-phone">Số Điện Thoại</label>
-                                    <input type="tel" name="phone" id="book-phone" required>
+                                    <input type="tel" name="phone" id="book-phone" required="">
                                 </div>
                                 <div class="form-group">
                                     <label for="book-email">Email</label>
-                                    <input type="email" name="email" id="book-email" required>
+                                    <input type="email" name="email" id="book-email" required="">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="book-room">Không Gian Nghỉ</label>
-                                <select name="room" id="book-room" required>
-                                    <option value="mo-village" data-price="1200000">Mơ Village Bungalow (1.200.000đ/đêm)</option>
-                                    <option value="dam-da" data-price="1500000">Đầm Đa Lake Cabin (1.500.000đ/đêm)</option>
-                                    <option value="lac-thuy-retreat" data-price="1800000">Lạc Thủy Retreat (1.800.000đ/đêm)</option>
+                                <select name="room" id="book-room" required="">
+                                    <option value="mo-village" data-price="1200000">Mơ Village Bungalow (1.200.000&nbsp;đ/đêm)</option>
+                                    <option value="dam-da" data-price="1500000">Đầm Đa Lake Cabin (1.500.000&nbsp;đ/đêm)</option>
+                                    <option value="lac-thuy-retreat" data-price="1800000">Lạc Thủy Retreat (1.800.000&nbsp;đ/đêm)</option>
                                 </select>
                             </div>
                             
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="book-checkin">Ngày Nhận Phòng</label>
-                                    <input type="date" name="checkin" id="book-checkin" required>
+                                    <input type="date" name="checkin" id="book-checkin" required="" min="2026-07-27">
                                 </div>
                                 <div class="form-group">
                                     <label for="book-checkout">Ngày Trả Phòng</label>
-                                    <input type="date" name="checkout" id="book-checkout" required>
+                                    <input type="date" name="checkout" id="book-checkout" required="" min="2026-07-28">
                                 </div>
                             </div>
                             
@@ -542,7 +533,7 @@
                             
                             <!-- Netlify Bot Poisoning protection -->
                             <div class="hidden-honeypot">
-                                <label>Don't fill this out: <input name="bot-field" /></label>
+                                <label>Don't fill this out: <input name="bot-field"></label>
                             </div>
                             
                             <button type="submit" class="btn-primary full-width modal-submit-btn">Gửi Đăng Ký Đặt Phòng</button>
@@ -585,7 +576,7 @@
                             <div class="quick-direct-booking">
                                 <p class="text-center font-sm">Được hỗ trợ nhanh nhất qua:</p>
                                 <div class="modal-direct-actions">
-                                    <a href="tel:+84987654321" class="btn-direct phone" id="hotline-btn-modal-summary"><i class="fa-solid fa-phone"></i> Gọi Điện</a>
+                                    <a href="tel:0987654321" class="btn-direct phone" id="hotline-btn-modal-summary"><i class="fa-solid fa-phone"></i> Gọi Điện</a>
                                     <a href="https://zalo.me/0987654321" target="_blank" rel="noopener noreferrer" class="btn-direct zalo" id="zalo-btn-modal-summary"><i class="fa-solid fa-comment-sms"></i> Chat Zalo</a>
                                 </div>
                             </div>
@@ -600,7 +591,7 @@
     <div class="modal" id="details-modal">
         <div class="modal-overlay" id="details-overlay"></div>
         <div class="modal-content max-width-md">
-            <button class="modal-close-btn" id="details-close" aria-label="Đóng cửa sổ">&times;</button>
+            <button class="modal-close-btn" id="details-close" aria-label="Đóng cửa sổ">×</button>
             <div class="modal-body">
                 <div class="room-details-container" id="room-details-content">
                     <!-- Loaded dynamically via JS -->
@@ -613,7 +604,7 @@
     <div class="modal" id="admin-login-modal">
         <div class="modal-overlay" id="admin-login-overlay"></div>
         <div class="modal-content max-width-md" style="max-width: 400px;">
-            <button class="modal-close-btn" id="admin-login-close" aria-label="Đóng">&times;</button>
+            <button class="modal-close-btn" id="admin-login-close" aria-label="Đóng">×</button>
             <div class="modal-body">
                 <div class="modal-header-section text-center">
                     <h3 class="modal-title">Đăng nhập Quản trị</h3>
@@ -622,7 +613,7 @@
                 <form id="admin-login-form" class="form-minimal">
                     <div class="form-group">
                         <label for="admin-password">Mật khẩu</label>
-                        <input type="password" id="admin-password" placeholder="••••••••" required autocomplete="current-password">
+                        <input type="password" id="admin-password" placeholder="••••••••" required="" autocomplete="current-password">
                     </div>
                     <button type="submit" class="btn-primary full-width">Xác nhận</button>
                 </form>
@@ -634,7 +625,7 @@
     <div class="modal" id="admin-pwd-modal">
         <div class="modal-overlay" id="admin-pwd-overlay"></div>
         <div class="modal-content max-width-md" style="max-width: 400px;">
-            <button class="modal-close-btn" id="admin-pwd-close" aria-label="Đóng">&times;</button>
+            <button class="modal-close-btn" id="admin-pwd-close" aria-label="Đóng">×</button>
             <div class="modal-body">
                 <div class="modal-header-section text-center">
                     <h3 class="modal-title">Đổi mật khẩu Quản trị</h3>
@@ -643,15 +634,15 @@
                 <form id="admin-pwd-form" class="form-minimal">
                     <div class="form-group">
                         <label for="pwd-old">Mật khẩu hiện tại</label>
-                        <input type="password" id="pwd-old" required>
+                        <input type="password" id="pwd-old" required="">
                     </div>
                     <div class="form-group">
                         <label for="pwd-new">Mật khẩu mới</label>
-                        <input type="password" id="pwd-new" required>
+                        <input type="password" id="pwd-new" required="">
                     </div>
                     <div class="form-group">
                         <label for="pwd-new-confirm">Xác nhận mật khẩu mới</label>
-                        <input type="password" id="pwd-new-confirm" required>
+                        <input type="password" id="pwd-new-confirm" required="">
                     </div>
                     <button type="submit" class="btn-primary full-width">Thay Đổi</button>
                 </form>
@@ -663,7 +654,7 @@
     <div class="modal" id="admin-stats-modal">
         <div class="modal-overlay" id="admin-stats-overlay"></div>
         <div class="modal-content max-width-md" style="max-width: 600px;">
-            <button class="modal-close-btn" id="admin-stats-close" aria-label="Đóng">&times;</button>
+            <button class="modal-close-btn" id="admin-stats-close" aria-label="Đóng">×</button>
             <div class="modal-body">
                 <div class="modal-header-section text-center">
                     <h3 class="modal-title"><i class="fa-solid fa-chart-line color-gold"></i> Thống kê lượt truy cập</h3>
@@ -725,5 +716,6 @@
 
     <!-- Script -->
     <script src="app.js"></script>
-</body>
-</html>
+
+
+<div id="give-freely-root-camppjleccjaphfdbohjdohecfnoikec" class="give-freely-root" data-extension-id="camppjleccjaphfdbohjdohecfnoikec" data-extension-name="Merlin AI" style="display: block;"></div><merlin-floating-cta style="overflow: visible; position: relative; width: 0px; height: 0px; display: block;"></merlin-floating-cta></body></html>
