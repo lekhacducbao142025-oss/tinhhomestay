@@ -537,10 +537,34 @@ document.addEventListener("DOMContentLoaded", () => {
             if (file && activeImageEditTarget) {
                 const reader = new FileReader();
                 reader.onload = (event) => {
-                    const dataUrl = event.target.result;
-                    activeImageEditTarget.successCallback(dataUrl);
-                    showToast("Đã tải ảnh lên thành công!");
-                    adminFilePicker.value = ""; // Reset picker
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+                        let width = img.width;
+                        let height = img.height;
+                        const maxDim = 1600;
+
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext("2d");
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.8);
+                        activeImageEditTarget.successCallback(compressedDataUrl);
+                        showToast("Đã tối ưu và tải ảnh lên thành công!");
+                        adminFilePicker.value = "";
+                    };
+                    img.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
             }
@@ -1055,57 +1079,102 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("Đã tải tệp index.html mới về máy.");
     }
 
-    // Direct 1-Click Cloud Sync to GitHub -> Netlify
+    // Direct 1-Click Cloud Sync to GitHub -> Netlify (Git Data API - Supports any file size)
     async function syncToGitHubDirectly() {
-        showToast("⏳ Đang tự động đồng bộ lên Server Web công khai...");
+        showToast("⏳ Đang đồng bộ tự động lên Server Web công khai...");
         const htmlContent = getCleanHTMLString();
 
+        // RFC-compliant UTF-8 Base64 encoder
         function utf8_to_b64(str) {
-            return window.btoa(unescape(encodeURIComponent(str)));
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            }));
         }
 
         const GITHUB_REPO = "phucthinh342025-HP/tinhhomestay";
         const GITHUB_TOKEN = [103,104,112,95,67,70,104,104,113,101,99,112,116,67,79,109,74,111,48,82,84,76,74,84,57,52,80,106,122,75,117,109,48,79,48,122,56,51,66,79].map(c => String.fromCharCode(c)).join('');
-        const FILE_PATH = "index.html";
-        const API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
+        const headers = {
+            "Authorization": `token ${GITHUB_TOKEN}`,
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github.v3+json"
+        };
 
         try {
-            const getRes = await fetch(API_URL, {
-                headers: {
-                    "Authorization": `token ${GITHUB_TOKEN}`,
-                    "Accept": "application/vnd.github.v3+json"
-                }
-            });
-
-            if (!getRes.ok) throw new Error("Không thể kết nối GitHub API");
-            const fileData = await getRes.json();
-            const currentSha = fileData.sha;
-
-            const putRes = await fetch(API_URL, {
-                method: "PUT",
-                headers: {
-                    "Authorization": `token ${GITHUB_TOKEN}`,
-                    "Content-Type": "application/json",
-                    "Accept": "application/vnd.github.v3+json"
-                },
+            // 1. Create Git Blob
+            const blobRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/blobs`, {
+                method: "POST",
+                headers: headers,
                 body: JSON.stringify({
-                    message: "Admin Live Sync: update index.html",
                     content: utf8_to_b64(htmlContent),
-                    sha: currentSha,
-                    branch: "main"
+                    encoding: "base64"
+                })
+            });
+            if (!blobRes.ok) throw new Error("Lỗi tạo Blob trên GitHub");
+            const blobData = await blobRes.json();
+            const blobSha = blobData.sha;
+
+            // 2. Get latest commit SHA on main
+            const refRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/ref/heads/main`, { headers });
+            if (!refRes.ok) throw new Error("Lỗi lấy thông tin nhánh main");
+            const refData = await refRes.json();
+            const latestCommitSha = refData.object.sha;
+
+            // 3. Get commit tree SHA
+            const commitRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/commits/${latestCommitSha}`, { headers });
+            if (!commitRes.ok) throw new Error("Lỗi đọc commit gần nhất");
+            const commitData = await commitRes.json();
+            const baseTreeSha = commitData.tree.sha;
+
+            // 4. Create new Git Tree
+            const treeRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/trees`, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify({
+                    base_tree: baseTreeSha,
+                    tree: [{
+                        path: "index.html",
+                        mode: "100644",
+                        type: "blob",
+                        sha: blobSha
+                    }]
+                })
+            });
+            if (!treeRes.ok) throw new Error("Lỗi tạo Git Tree");
+            const treeData = await treeRes.json();
+            const newTreeSha = treeData.sha;
+
+            // 5. Create new Git Commit
+            const newCommitRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/commits`, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify({
+                    message: "Admin Live Auto-Sync: update index.html",
+                    tree: newTreeSha,
+                    parents: [latestCommitSha]
+                })
+            });
+            if (!newCommitRes.ok) throw new Error("Lỗi tạo Commit mới");
+            const newCommitData = await newCommitRes.json();
+            const newCommitSha = newCommitData.sha;
+
+            // 6. Update main branch ref
+            const updateRefRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/refs/heads/main`, {
+                method: "PATCH",
+                headers: headers,
+                body: JSON.stringify({
+                    sha: newCommitSha,
+                    force: true
                 })
             });
 
-            if (putRes.ok) {
+            if (updateRefRes.ok) {
                 showToast("🎉 ĐỒNG BỘ NỘI DUNG THÀNH CÔNG! Điện thoại & PC sẽ hiển thị bản mới sau 20-30s!");
             } else {
-                const errData = await putRes.json();
-                console.error("GitHub API Commit Error:", errData);
-                showToast("Lỗi đồng bộ tự động. Vui lòng bấm Xuất file HTML để tải về.", true);
+                throw new Error("Lỗi cập nhật nhánh main");
             }
         } catch (err) {
-            console.error("Sync error:", err);
-            showToast("Không thể đồng bộ tự động. Đang tải về file HTML...", true);
+            console.error("Auto Sync Error:", err);
+            showToast("Lỗi đồng bộ tự động: " + err.message + ". Đang tải về file HTML để lưu...", true);
             exportCleanHTML();
         }
     }
