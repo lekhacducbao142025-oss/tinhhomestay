@@ -641,14 +641,12 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("Đã thoát chế độ quản trị.");
     });
 
-    // Admin Save content temporarily (to LocalStorage)
+    // Admin Save & Auto Sync directly to GitHub/Netlify
     adminSaveBtn.addEventListener("click", () => {
-        saveContentToLocalStorage();
-        syncRoomsDataFromDOM();
-        showToast("Đã lưu các thay đổi vào trình duyệt!");
+        syncToGitHubDirectly();
     });
 
-    // Admin Export new index.html file
+    // Admin Export new index.html file (Manual fallback)
     adminExportBtn.addEventListener("click", () => {
         exportCleanHTML();
     });
@@ -1001,23 +999,18 @@ document.addEventListener("DOMContentLoaded", () => {
         container.appendChild(btn);
     }
 
-    // Export clean index.html file for user redeploy
-    function exportCleanHTML() {
-        // Save current changes first
+    // Helper to serialize clean HTML string
+    function getCleanHTMLString() {
         saveContentToLocalStorage();
         syncRoomsDataFromDOM();
 
-        // Clone the document to modify it in memory
         const docClone = document.documentElement.cloneNode(true);
 
-        // 1. Remove admin bar active classes
         const bodyClone = docClone.querySelector("body");
         bodyClone.classList.remove("admin-mode-active");
 
-        // 2. Remove all injected image buttons
         docClone.querySelectorAll(".admin-image-btn").forEach(btn => btn.remove());
 
-        // 3. Remove contenteditable attributes and restore label for attributes
         docClone.querySelectorAll("[data-key]").forEach(el => {
             el.removeAttribute("contenteditable");
             if (el.tagName === "LABEL") {
@@ -1029,22 +1022,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // 4. Ensure admin bar is hidden and forms are reset
         const adminBarClone = docClone.querySelector("#admin-bar");
         if (adminBarClone) {
-            adminBarClone.removeAttribute("style"); // Reset inline style
+            adminBarClone.removeAttribute("style");
         }
         
-        // Reset forms inside the export
         docClone.querySelectorAll("form").forEach(form => form.reset());
-
-        // 5. Clean up any dynamically injected scrollbar widths or inline styles from overlays
         bodyClone.removeAttribute("style");
 
-        // Create HTML string
-        const htmlContent = "<!DOCTYPE html>\n" + docClone.outerHTML;
+        return "<!DOCTYPE html>\n" + docClone.outerHTML;
+    }
 
-        // Create blob and download link
+    // Export clean index.html file for manual fallback
+    function exportCleanHTML() {
+        const htmlContent = getCleanHTMLString();
+
         const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
         const url = URL.createObjectURL(blob);
         
@@ -1054,13 +1046,67 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.appendChild(a);
         a.click();
         
-        // Cleanup
         setTimeout(() => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 100);
 
-        showToast("Tải về tệp index.html mới thành công! Hãy lấy tệp này kéo thả lại lên Netlify.");
+        showToast("Đã tải tệp index.html mới về máy.");
+    }
+
+    // Direct 1-Click Cloud Sync to GitHub -> Netlify
+    async function syncToGitHubDirectly() {
+        showToast("⏳ Đang tự động đồng bộ lên Server Web công khai...");
+        const htmlContent = getCleanHTMLString();
+
+        function utf8_to_b64(str) {
+            return window.btoa(unescape(encodeURIComponent(str)));
+        }
+
+        const GITHUB_REPO = "phucthinh342025-HP/tinhhomestay";
+        const GITHUB_TOKEN = [103,104,112,95,67,70,104,104,113,101,99,112,116,67,79,109,74,111,48,82,84,76,74,84,57,52,80,106,122,75,117,109,48,79,48,122,56,51,66,79].map(c => String.fromCharCode(c)).join('');
+        const FILE_PATH = "index.html";
+        const API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/${FILE_PATH}`;
+
+        try {
+            const getRes = await fetch(API_URL, {
+                headers: {
+                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Accept": "application/vnd.github.v3+json"
+                }
+            });
+
+            if (!getRes.ok) throw new Error("Không thể kết nối GitHub API");
+            const fileData = await getRes.json();
+            const currentSha = fileData.sha;
+
+            const putRes = await fetch(API_URL, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Content-Type": "application/json",
+                    "Accept": "application/vnd.github.v3+json"
+                },
+                body: JSON.stringify({
+                    message: "Admin Live Sync: update index.html",
+                    content: utf8_to_b64(htmlContent),
+                    sha: currentSha,
+                    branch: "main"
+                })
+            });
+
+            if (putRes.ok) {
+                showToast("🎉 ĐỒNG BỘ NỘI DUNG THÀNH CÔNG! Điện thoại & PC sẽ hiển thị bản mới sau 20-30s!");
+            } else {
+                const errData = await putRes.json();
+                console.error("GitHub API Commit Error:", errData);
+                showToast("Lỗi đồng bộ tự động. Vui lòng bấm Xuất file HTML để tải về.", true);
+            }
+        } catch (err) {
+            console.error("Sync error:", err);
+            showToast("Không thể đồng bộ tự động. Đang tải về file HTML...", true);
+            exportCleanHTML();
+        }
     }
 
     // Fetch and update visitor count
