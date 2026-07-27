@@ -595,8 +595,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+
     const quickRoomSelect = document.getElementById("quick-room");
-    const bookRoomSelect = document.getElementById("book-room");
     
     if (quickRoomSelect) {
         quickRoomSelect.addEventListener("mousedown", handleSelectEdit);
