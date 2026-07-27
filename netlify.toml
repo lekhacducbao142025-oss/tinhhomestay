@@ -1,5 +1,5 @@
 # netlify.toml
-# Build: 2026-07-27 20:44 - Admin fix + image upload + label edit
+# Build: 2026-07-27 21:18 - CRITICAL FIX: admin JS crash resolved
 # Cấu hình tối ưu hóa tải trang và chuyển hướng cho website tĩnh
 
 [build]

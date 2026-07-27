@@ -1,0 +1,6 @@
+Build: 2026-07-27 21:06
+- Admin password: admin
+- Image upload from computer (Base64)
+- Label editing fixed
+- Select room editing
+- All forms protected in admin mode
