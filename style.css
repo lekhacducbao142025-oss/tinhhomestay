@@ -1793,12 +1793,17 @@ body.admin-mode-active .admin-image-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    opacity: 1 !important;
+    z-index: 1005 !important;
 }
 
-body.admin-mode-active .room-img-wrapper:hover .admin-image-btn,
-body.admin-mode-active .image-wrapper-decorative:hover .admin-image-btn,
-body.admin-mode-active .hero-section:hover .admin-image-btn {
-    opacity: 1;
+body.admin-mode-active .hero-section .admin-image-btn {
+    top: 90px !important;
+    right: 30px !important;
+    background-color: rgba(26, 28, 24, 0.95) !important;
+    border: 1px solid var(--accent-gold) !important;
+    padding: 8px 16px !important;
+    font-size: 0.8125rem !important;
 }
 
 .admin-login-link {

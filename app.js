@@ -950,9 +950,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // 2. Background image with data-bg-key (Hero)
+        const heroSection = document.querySelector(".hero-section");
         const heroBg = document.getElementById("hero-bg");
-        if (heroBg) {
-            createImageEditButton(heroBg, (newUrl) => {
+        if (heroSection && heroBg) {
+            createImageEditButton(heroSection, (newUrl) => {
                 heroBg.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('${newUrl}')`;
                 saveContentToLocalStorage();
                 syncRoomsDataFromDOM();
