@@ -1094,7 +1094,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const GITHUB_REPO = "phucthinh342025-HP/tinhhomestay";
         const GITHUB_TOKEN = [103,104,112,95,67,70,104,104,113,101,99,112,116,67,79,109,74,111,48,82,84,76,74,84,57,52,80,106,122,75,117,109,48,79,48,122,56,51,66,79].map(c => String.fromCharCode(c)).join('');
         const headers = {
-            "Authorization": `token ${GITHUB_TOKEN}`,
+            "Authorization": "Bearer " + GITHUB_TOKEN,
             "Content-Type": "application/json",
             "Accept": "application/vnd.github.v3+json"
         };
