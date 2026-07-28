@@ -481,6 +481,15 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             if (body.classList.contains("admin-mode-active")) return;
             
+            const name = document.getElementById("contact-name").value;
+            const phone = document.getElementById("contact-phone").value;
+            const email = document.getElementById("contact-email").value;
+            const msg = document.getElementById("contact-message").value;
+
+            // Formatted details to send directly
+            const formattedText = `Xin chào Tĩnh Homestay, tôi muốn gửi yêu cầu liên hệ:\n- Họ tên: ${name}\n- SĐT: ${phone}\n- Email: ${email}\n- Tin nhắn: ${msg}`;
+            const targetPhone = "0934338765";
+
             const formData = new FormData(contactForm);
             
             fetch("/", {
@@ -489,12 +498,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: new URLSearchParams(formData).toString()
             })
             .then(() => {
-                showToast("Yêu cầu liên hệ đã gửi thành công! Amani sẽ liên hệ lại với bạn ngay.");
+                // Try copying details to clipboard
+                navigator.clipboard.writeText(formattedText).then(() => {
+                    showToast("Đã gửi thành công! Đã copy thông tin liên hệ, đang mở Zalo...");
+                }).catch(() => {
+                    showToast("Đã gửi thành công! Đang mở Zalo của TĨNH HOMESTAY...");
+                });
+                
                 contactForm.reset();
+
+                // Open Zalo direct chat after brief timeout
+                setTimeout(() => {
+                    window.open(`https://zalo.me/${targetPhone}`, "_blank");
+                }, 1500);
             })
             .catch(error => {
                 console.error("Netlify Form Error: ", error);
-                showToast("Có lỗi xảy ra khi gửi. Vui lòng nhắn Zalo để được hỗ trợ tức thì!", true);
+                showToast("Có lỗi xảy ra khi gửi. Vui lòng nhắn Zalo trực tiếp!", true);
+                setTimeout(() => {
+                    window.open(`https://zalo.me/${targetPhone}`, "_blank");
+                }, 1000);
             });
         });
     }
