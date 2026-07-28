@@ -47,6 +47,13 @@ const DEFAULT_PASSWORD_HASH = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a
 // 2. DOCUMENT READY & STATE MANAGEMENT
 // ----------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+    // GitHub API Configurations
+    const GH_REPO = "phucthinh342025-HP/tinhhomestay";
+    const GH_DATA_FILE = "data/content.json";
+    const GH_RAW_URL = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_DATA_FILE}`;
+    const GH_API_URL = `https://api.github.com/repos/${GH_REPO}/contents/${GH_DATA_FILE}`;
+    const GH_TOKEN = [103,104,112,95,67,70,104,104,113,101,99,112,116,67,79,109,74,111,48,82,84,76,74,84,57,52,80,106,122,75,117,109,48,79,48,122,56,51,66,79].map(c => String.fromCharCode(c)).join('');
+
     // DOM Elements
     const body = document.body;
     const header = document.getElementById("main-header");
@@ -899,11 +906,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mobile/PC khác đọc raw file đó khi tải trang
     // Không hết hạn, không cần kéo thả, không cần Netlify redeploy
     // -----------------------------------------------
-    const GH_REPO = "phucthinh342025-HP/tinhhomestay";
-    const GH_DATA_FILE = "data/content.json";
-    const GH_RAW_URL = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_DATA_FILE}`;
-    const GH_API_URL = `https://api.github.com/repos/${GH_REPO}/contents/${GH_DATA_FILE}`;
-    const GH_TOKEN = [103,104,112,95,67,70,104,104,113,101,99,112,116,67,79,109,74,111,48,82,84,76,74,84,57,52,80,106,122,75,117,109,48,79,48,122,56,51,66,79].map(c => String.fromCharCode(c)).join('');
+
 
     // Extract all editable content from DOM → return {contentData, imageData}
     function extractContentFromDOM() {
