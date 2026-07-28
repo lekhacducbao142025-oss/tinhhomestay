@@ -731,8 +731,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Update page title if they edit the logo
             if (key === "logo-serif" || key === "logo-sans") {
                 const serif = document.querySelector('[data-key="logo-serif"]')?.innerText || "Amani";
-                const sans = document.querySelector('[data-key="logo-sans"]')?.innerText || "Lạc Thủy";
-                document.title = `${serif} ${sans} | Homestay Nghỉ Dưỡng Tối Giản Hòa Bình`;
+                 document.title = `${serif}${sans} - nghỉ dưỡng đơn giản tại LẠC THỦY`;
             }
         });
     });
