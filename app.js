@@ -816,7 +816,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Save current inline edits to LocalStorage
+    const CLOUD_SYNC_URL = "https://jsonblob.com/api/jsonBlob/1399430852935901184";
+
+    // Save current inline edits to LocalStorage AND Cloud API
     function saveContentToLocalStorage() {
         const contentData = {};
         const imageData = {};
@@ -837,7 +839,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll("[data-bg-key]").forEach(el => {
             const key = el.getAttribute("data-bg-key");
             const style = el.style.backgroundImage;
-            // Extract URL from style
             const urlMatch = style.match(/url\(['"]?([^'"]+?)['"]?\)/);
             if (urlMatch) {
                 imageData[key] = urlMatch[1];
@@ -849,13 +850,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Sync clickable link values (Hotline / Zalo)
         syncClickableLinks();
+
+        // Real-time Push to Cloud API (Automatic background sync)
+        fetch(CLOUD_SYNC_URL, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ contentData, imageData })
+        })
+        .then(() => console.log("Real-time Cloud Sync: Success"))
+        .catch(err => console.warn("Cloud sync background error:", err));
     }
 
-    // Load saved content on refresh
+    // Load saved content on refresh (From LocalStorage + Realtime Cloud API)
     function loadSavedContent() {
         const contentData = JSON.parse(localStorage.getItem("amani_content"));
         const imageData = JSON.parse(localStorage.getItem("amani_images"));
 
+        applyContentToDOM(contentData, imageData);
+
+        // Fetch latest Real-time Cloud API state (Syncs Mobile & PC automatically)
+        fetch(CLOUD_SYNC_URL, { headers: { "Accept": "application/json" } })
+            .then(res => {
+                if (!res.ok) throw new Error("Cloud fetch status error");
+                return res.json();
+            })
+            .then(cloudData => {
+                if (cloudData && cloudData.contentData) {
+                    localStorage.setItem("amani_content", JSON.stringify(cloudData.contentData));
+                    if (cloudData.imageData) {
+                        localStorage.setItem("amani_images", JSON.stringify(cloudData.imageData));
+                    }
+                    applyContentToDOM(cloudData.contentData, cloudData.imageData);
+                }
+            })
+            .catch(err => console.warn("Cloud content load fallback to local:", err));
+    }
+
+    function applyContentToDOM(contentData, imageData) {
         if (contentData) {
             document.querySelectorAll("[data-key]").forEach(el => {
                 const key = el.getAttribute("data-key");
@@ -867,7 +898,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (imageData) {
-            // Apply source images
             document.querySelectorAll("[data-img-key]").forEach(el => {
                 const key = el.getAttribute("data-img-key");
                 if (imageData[key]) {
@@ -875,7 +905,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Apply background images
             document.querySelectorAll("[data-bg-key]").forEach(el => {
                 const key = el.getAttribute("data-bg-key");
                 if (imageData[key]) {
@@ -884,7 +913,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
         
-        // Sync select options and pricing mapping from DOM
         syncRoomsDataFromDOM();
     }
 
