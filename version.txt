@@ -1,6 +1,8 @@
-Build: 2026-07-27 21:06
-- Admin password: admin
+Build: 2026-07-28 13:16
+- Admin password: admin (Bắt buộc nhập mật khẩu bảo mật)
 - Image upload from computer (Base64)
 - Label editing fixed
 - Select room editing
 - All forms protected in admin mode
+- Fixed password auth fallback on local file:// context
+- Cleaned up duplicate toasts & Merlin AI extension junk code in index.html
