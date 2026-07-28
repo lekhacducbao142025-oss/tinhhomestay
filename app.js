@@ -37,6 +37,28 @@ let ROOMS_DATA = {
         view: "View thung lũng & núi rừng biệt lập",
         desc: "Lạc Thủy Retreat là sự kết hợp đầy nghệ thuật giữa nhà sàn Mường cổ điển với phong cách kiến trúc Brutalist tối giản hiện đại. Ngôi nhà được dựng từ khung gỗ lũa rắn chắc và những mảng tường đá cuội sông mát lạnh vào mùa hè, ấm áp vào mùa đông. Một không gian hoàn toàn riêng tư với lò sưởi đốt củi thật, thích hợp cho nhóm bạn thân hoặc gia đình nhỏ muốn tìm về sự ấm cúng, kết nối.",
         amenities: ["Lò sưởi củi tự nhiên", "Khuôn viên nướng BBQ", "Bếp nấu gia đình", "Sân hiên trà chiều", "Hệ thống âm thanh Marshall", "2 Phòng ngủ biệt lập", "Bồn tắm gỗ Pơ-mu"]
+    },
+    "phong-cay": {
+        name: "Phòng Cây",
+        price: 1400000,
+        img: "assets/room_zen.jpg",
+        size: "38m²",
+        guests: "Tối đa 2 người lớn",
+        bed: "01 Giường King-size",
+        view: "View thung lũng & giữa những tán cây cổ thụ",
+        desc: "Phòng Cây là một thiết kế cabin tổ chim độc đáo nép mình giữa những tán cây cổ thụ Hòa Bình rộng lớn. Căn phòng mở ra một tầm nhìn Panorama hướng trọn thung lũng đá vôi sương mờ. Nơi lý tưởng để bạn tận hưởng những buổi chiều lộng gió trên ban công treo lơ lửng giữa mây trời và lá cây xanh mướt.",
+        amenities: ["Ban công riêng lơ lửng", "View tán lá rừng", "Wi-Fi miễn phí", "Điều hòa hai chiều", "Bồn tắm đứng", "Trà & Cà phê hữu cơ"]
+    },
+    "nha-san-cong-dong": {
+        name: "Nhà sàn cộng đồng",
+        price: 3000000,
+        img: "assets/hero_homestay.jpg",
+        size: "120m²",
+        guests: "Tối đa 15 người lớn",
+        bed: "15 Đệm Futon truyền thống",
+        view: "View toàn cảnh thung lũng",
+        desc: "Nhà sàn cộng đồng tái hiện nguyên bản kiến trúc nhà sàn truyền thống của người Mường Lạc Thủy, sử dụng hoàn toàn từ cột gỗ lũa nguyên khối lớn và mái lá cọ mát rượi. Với diện tích sử dụng rộng rãi, ngôi nhà được trang bị đầy đủ chăn ga gối đệm êm ái, bồn rửa chung tiện lợi, là địa điểm hoàn hảo cho các hoạt động gia đình lớn hay teambuilding.",
+        amenities: ["Nhà sàn truyền thống rộng", "Khu sinh hoạt chung lớn", "Bếp nướng BBQ ngoài trời", "Bồn rửa & Vệ sinh riêng", "Hệ thống âm thanh Marshall", "Wi-Fi tốc độ cao"]
     }
 };
 
@@ -86,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         syncRoomsDataFromDOM();
         setupDateFields();
         updateVisitorCounter();
+        setupAdminGalleryManager();
     } catch (e) {
         alert("Lỗi khởi tạo JavaScript: " + e.message + "\n" + e.stack);
         console.error("Initialization Error: ", e);
@@ -1056,6 +1079,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         syncRoomsDataFromDOM();
+        if (typeof initExperienceSlider === "function") {
+            initExperienceSlider();
+        }
     }
 
     // Sync memory ROOMS_DATA from DOM values
@@ -1075,6 +1101,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const price3 = parseInt((document.querySelector('[data-key="room-price-3"]')?.innerText || "1.800.000").replace(/\./g, '')) || 1800000;
         const img3 = document.querySelector('[data-img-key="room-img-3"]')?.getAttribute("src") || "assets/hero_homestay.jpg";
 
+        // Phong Cay
+        const name4 = document.querySelector('[data-key="room-name-4"]')?.innerText || "Phòng Cây";
+        const price4 = parseInt((document.querySelector('[data-key="room-price-4"]')?.innerText || "1.400.000").replace(/\./g, '')) || 1400000;
+        const img4 = document.querySelector('[data-img-key="room-img-4"]')?.getAttribute("src") || "assets/room_zen.jpg";
+
+        // Nha San Cong Dong
+        const name5 = document.querySelector('[data-key="room-name-5"]')?.innerText || "Nhà sàn cộng đồng";
+        const price5 = parseInt((document.querySelector('[data-key="room-price-5"]')?.innerText || "3.000.000").replace(/\./g, '')) || 3000000;
+        const img5 = document.querySelector('[data-img-key="room-img-5"]')?.getAttribute("src") || "assets/hero_homestay.jpg";
+
         ROOMS_DATA["mo-village"].name = name1;
         ROOMS_DATA["mo-village"].price = price1;
         ROOMS_DATA["mo-village"].img = img1;
@@ -1087,23 +1123,39 @@ document.addEventListener("DOMContentLoaded", () => {
         ROOMS_DATA["lac-thuy-retreat"].price = price3;
         ROOMS_DATA["lac-thuy-retreat"].img = img3;
 
+        ROOMS_DATA["phong-cay"].name = name4;
+        ROOMS_DATA["phong-cay"].price = price4;
+        ROOMS_DATA["phong-cay"].img = img4;
+
+        ROOMS_DATA["nha-san-cong-dong"].name = name5;
+        ROOMS_DATA["nha-san-cong-dong"].price = price5;
+        ROOMS_DATA["nha-san-cong-dong"].img = img5;
+
         // Force select options inside booking modal to reflect names
         const option1 = document.querySelector('#book-room option[value="mo-village"]');
         const option2 = document.querySelector('#book-room option[value="dam-da"]');
         const option3 = document.querySelector('#book-room option[value="lac-thuy-retreat"]');
+        const option4 = document.querySelector('#book-room option[value="phong-cay"]');
+        const option5 = document.querySelector('#book-room option[value="nha-san-cong-dong"]');
 
         if (option1) option1.text = `${name1} (${formatVND(price1)}/đêm)`;
         if (option2) option2.text = `${name2} (${formatVND(price2)}/đêm)`;
         if (option3) option3.text = `${name3} (${formatVND(price3)}/đêm)`;
+        if (option4) option4.text = `${name4} (${formatVND(price4)}/đêm)`;
+        if (option5) option5.text = `${name5} (${formatVND(price5)}/đêm)`;
 
         // Force select options inside Hero Quick Booking Widget to reflect names
         const quickOption1 = document.querySelector('#quick-room option[value="mo-village"]');
         const quickOption2 = document.querySelector('#quick-room option[value="dam-da"]');
         const quickOption3 = document.querySelector('#quick-room option[value="lac-thuy-retreat"]');
+        const quickOption4 = document.querySelector('#quick-room option[value="phong-cay"]');
+        const quickOption5 = document.querySelector('#quick-room option[value="nha-san-cong-dong"]');
 
         if (quickOption1) quickOption1.text = name1;
         if (quickOption2) quickOption2.text = name2;
         if (quickOption3) quickOption3.text = name3;
+        if (quickOption4) quickOption4.text = name4;
+        if (quickOption5) quickOption5.text = name5;
     }
 
     // Automatically sync edited texts to anchor links (tel: and zalo.me)
@@ -1418,5 +1470,172 @@ document.addEventListener("DOMContentLoaded", () => {
                 toast.remove();
             }, 400);
         }, 4500);
+    }
+
+    // ------------------------------------------------
+    // 15. DYNAMIC SLIDER BANNER & ADMIN GALLERY MANAGER
+    // ------------------------------------------------
+    function initExperienceSlider() {
+        const track = document.getElementById("carousel-track");
+        const dataContainer = document.getElementById("gallery-data-container");
+        if (!track || !dataContainer) return;
+
+        let images = [];
+        try {
+            images = JSON.parse(dataContainer.innerText);
+        } catch (e) {
+            console.error("Failed to parse gallery images JSON", e);
+            images = ["assets/room_forest.jpg", "assets/room_lake.jpg", "assets/room_zen.jpg"];
+        }
+
+        // Populate slides
+        track.innerHTML = images.map(src => `
+            <div class="carousel-slide">
+                <img src="${src}" alt="Ảnh trải nghiệm homestay">
+            </div>
+        `).join('');
+
+        let currentIndex = 0;
+        const slides = track.querySelectorAll(".carousel-slide");
+        const totalSlides = slides.length;
+
+        function updateSlidePosition() {
+            if (totalSlides === 0) return;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        // Event listeners for prev/next buttons
+        const nextBtn = document.getElementById("carousel-next");
+        const prevBtn = document.getElementById("carousel-prev");
+
+        if (nextBtn) {
+            nextBtn.onclick = () => {
+                if (totalSlides === 0) return;
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlidePosition();
+                resetAutoplay();
+            };
+        }
+        if (prevBtn) {
+            prevBtn.onclick = () => {
+                if (totalSlides === 0) return;
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateSlidePosition();
+                resetAutoplay();
+            };
+        }
+
+        // Autoplay slide banner
+        if (window.sliderAutoplayInterval) {
+            clearInterval(window.sliderAutoplayInterval);
+        }
+        window.sliderAutoplayInterval = setInterval(() => {
+            if (totalSlides === 0) return;
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlidePosition();
+        }, 4000);
+
+        function resetAutoplay() {
+            clearInterval(window.sliderAutoplayInterval);
+            window.sliderAutoplayInterval = setInterval(() => {
+                if (totalSlides === 0) return;
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlidePosition();
+            }, 4000);
+        }
+    }
+
+    function setupAdminGalleryManager() {
+        const manageBtn = document.getElementById("admin-manage-gallery-btn");
+        const galleryModal = document.getElementById("admin-gallery-modal");
+        const galleryClose = document.getElementById("admin-gallery-close");
+        const galleryOverlay = document.getElementById("admin-gallery-overlay");
+        const galleryList = document.getElementById("admin-gallery-list");
+        const dataContainer = document.getElementById("gallery-data-container");
+
+        const addOnlineBtn = document.getElementById("admin-add-gallery-online");
+        const addLocalBtn = document.getElementById("admin-add-gallery-local");
+
+        if (!manageBtn || !galleryModal || !dataContainer) return;
+
+        // Register modal close
+        const closeGalleryModal = () => {
+            closeModal(galleryModal);
+        };
+        if (galleryClose) galleryClose.addEventListener("click", closeGalleryModal);
+        if (galleryOverlay) galleryOverlay.addEventListener("click", closeGalleryModal);
+
+        manageBtn.addEventListener("click", () => {
+            renderGalleryManagerList();
+            openModal(galleryModal);
+        });
+
+        function getGalleryImages() {
+            try {
+                return JSON.parse(dataContainer.innerText) || [];
+            } catch(e) {
+                return [];
+            }
+        }
+
+        function updateGalleryImages(images) {
+            dataContainer.innerText = JSON.stringify(images);
+            // Trigger save and re-init slider
+            saveContentToLocalStorage();
+            initExperienceSlider();
+            renderGalleryManagerList();
+        }
+
+        function renderGalleryManagerList() {
+            const images = getGalleryImages();
+            if (!galleryList) return;
+
+            galleryList.innerHTML = images.map((src, index) => `
+                <div class="admin-gallery-item">
+                    <img src="${src}" alt="Slide">
+                    <button class="admin-gallery-item-delete" data-index="${index}" type="button">×</button>
+                </div>
+            `).join('');
+
+            // Add delete handlers
+            galleryList.querySelectorAll(".admin-gallery-item-delete").forEach(btn => {
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(btn.getAttribute("data-index"));
+                    const images = getGalleryImages();
+                    images.splice(idx, 1);
+                    updateGalleryImages(images);
+                    showToast("Đã xóa ảnh khỏi slide!");
+                };
+            });
+        }
+
+        // Add online URL image
+        if (addOnlineBtn) {
+            addOnlineBtn.onclick = () => {
+                const newUrl = prompt("Nhập link ảnh online muốn thêm vào slide:");
+                if (newUrl && newUrl.trim() !== "") {
+                    const images = getGalleryImages();
+                    images.push(newUrl.trim());
+                    updateGalleryImages(images);
+                    showToast("Đã thêm ảnh từ link thành công!");
+                }
+            };
+        }
+
+        // Add local image upload
+        if (addLocalBtn) {
+            addLocalBtn.onclick = () => {
+                activeImageEditTarget = {
+                    successCallback: (compressedDataUrl) => {
+                        const images = getGalleryImages();
+                        images.push(compressedDataUrl);
+                        updateGalleryImages(images);
+                        showToast("Đã thêm ảnh tải lên thành công!");
+                    }
+                };
+                if (adminFilePicker) adminFilePicker.click();
+            };
+        }
     }
 });

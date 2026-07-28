@@ -2243,3 +2243,231 @@ body.dark-theme .text-success {
         padding: 16px 12px;
     }
 }
+
+/* ==========================================================================
+   17. NEW ADDITIONS: TESTIMONIALS, EXPERIENCE SLIDER & LOGO STYLING
+   ========================================================================== */
+
+/* Logo Image Styling */
+.logo-img-wrapper {
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.logo-img-wrapper:hover {
+    transform: scale(1.05);
+    border-color: var(--accent-color-hover) !important;
+}
+
+/* Testimonials Section Styling */
+.testimonials-section {
+    background-color: var(--bg-primary);
+    padding: 80px 0;
+    transition: background-color 0.5s ease;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+@media (min-width: 768px) {
+    .testimonials-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.testimonial-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card .quote-icon {
+    font-size: 2rem;
+    color: var(--accent-color);
+    opacity: 0.3;
+    margin-bottom: 15px;
+}
+
+.testimonial-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.testimonial-author {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+}
+
+/* Experience Slide Banner Section Styling */
+.gallery-carousel-section {
+    background-color: var(--bg-secondary);
+    padding: 80px 0;
+    transition: background-color 0.5s ease;
+    overflow: hidden;
+}
+
+.carousel-container-wrapper {
+    position: relative;
+    max-width: 1000px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+}
+
+.experience-carousel {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 480px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .experience-carousel {
+        height: 320px;
+    }
+}
+
+.carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 2rem;
+    line-height: 44px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.prev-btn {
+    left: 20px;
+}
+
+.next-btn {
+    right: 20px;
+}
+
+/* Admin Manage Slider controls */
+.admin-gallery-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 15;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: none; /* Only visible in admin mode */
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.admin-gallery-btn:hover {
+    background: var(--accent-color-hover);
+    transform: scale(1.03);
+}
+
+.admin-mode-active .admin-gallery-btn {
+    display: block !important;
+}
+
+/* Admin Gallery Manager Modal Grid */
+.admin-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.admin-gallery-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    border: 1px solid var(--border-color);
+}
+
+.admin-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-gallery-item-delete {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(220, 53, 69, 0.9);
+    color: #fff;
+    border: none;
+    font-size: 0.8rem;
+    line-height: 22px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.admin-gallery-item-delete:hover {
+    background: rgb(220, 53, 69);
+}

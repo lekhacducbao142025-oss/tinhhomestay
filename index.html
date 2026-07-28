@@ -47,6 +47,9 @@
     <header class="header scrolled" id="main-header">
         <div class="container header-container">
             <a href="#" class="logo" id="site-logo">
+                <div class="image-wrapper-decorative logo-img-wrapper" style="width: 36px; height: 36px; border-radius: 50%; overflow: hidden; margin-right: 8px; display: inline-block; vertical-align: middle; border: 2px solid var(--accent-color);">
+                    <img src="assets/room_zen.jpg" data-img-key="logo-image" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
                 <span class="logo-serif" data-key="logo-serif">&nbsp; Tĩnh</span>
                 <span class="logo-sans" data-key="logo-sans">Home Stay</span>
             </a>
@@ -97,6 +100,8 @@
                                 <option value="mo-village">Phòng Container T1</option>
                                 <option value="dam-da">Phòng container T2</option>
                                 <option value="lac-thuy-retreat">Nhà sàn T2</option>
+                                <option value="phong-cay">Phòng Cây</option>
+                                <option value="nha-san-cong-dong">Nhà sàn cộng đồng</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -234,6 +239,50 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Room Card 4 (Phòng Cây) -->
+                    <div class="room-card scroll-reveal revealed" data-room-id="phong-cay" data-price="1400000">
+                        <div class="room-img-wrapper">
+                            <img src="assets/room_zen.jpg" alt="Phòng Cây" class="room-img" data-img-key="room-img-4">
+                            <div class="room-price"><span data-key="room-price-4">1.400.000</span>đ<span>/đêm</span></div>
+                        </div>
+                        <div class="room-info">
+                            <h3 class="room-name" data-key="room-name-4">Phòng Cây</h3>
+                            <p class="room-desc" data-key="room-desc-4">Cabin tổ chim độc đáo nép mình giữa những tán cây cổ thụ, mang lại cảm giác chạm tay vào lá xanh và ngắm thung lũng từ trên cao.</p>
+                            <ul class="room-amenities">
+                                <li><i class="fa-solid fa-maximize"></i> 38m²</li>
+                                <li><i class="fa-solid fa-user-group"></i> Tối đa 2 người lớn</li>
+                                <li><i class="fa-solid fa-tree"></i> View tán lá rừng</li>
+                                <li><i class="fa-solid fa-wind"></i> Ban công treo lộng gió</li>
+                            </ul>
+                            <div class="room-card-actions">
+                                <button class="btn-outline view-details-btn" data-room="phong-cay">Chi Tiết</button>
+                                <button class="btn-primary book-now-btn" data-room="phong-cay">Đặt Phòng</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Room Card 5 (Nhà sàn cộng đồng) -->
+                    <div class="room-card scroll-reveal revealed" data-room-id="nha-san-cong-dong" data-price="3000000">
+                        <div class="room-img-wrapper">
+                            <img src="assets/hero_homestay.jpg" alt="Nhà sàn cộng đồng" class="room-img" data-img-key="room-img-5">
+                            <div class="room-price"><span data-key="room-price-5">3.000.000</span>đ<span>/đêm</span></div>
+                        </div>
+                        <div class="room-info">
+                            <h3 class="room-name" data-key="room-name-5">Nhà sàn cộng đồng</h3>
+                            <p class="room-desc" data-key="room-desc-5">Kiến trúc nhà sàn nguyên bản rộng rãi, sức chứa lớn từ 10-15 người. Thích hợp cho các hoạt động teambuilding, gia đình lớn sum họp.</p>
+                            <ul class="room-amenities">
+                                <li><i class="fa-solid fa-maximize"></i> 120m²</li>
+                                <li><i class="fa-solid fa-user-group"></i> Tối đa 15 người</li>
+                                <li><i class="fa-solid fa-house-chimney"></i> Nhà sàn truyền thống</li>
+                                <li><i class="fa-solid fa-users"></i> Phù hợp họp nhóm</li>
+                            </ul>
+                            <div class="room-card-actions">
+                                <button class="btn-outline view-details-btn" data-room="nha-san-cong-dong">Chi Tiết</button>
+                                <button class="btn-primary book-now-btn" data-room="nha-san-cong-dong">Đặt Phòng</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -276,6 +325,69 @@
                             <img src="assets/room_forest.jpg" alt="Chèo thuyền hồ Lạc Thủy Hòa Bình" class="exp-img" data-img-key="exp-img">
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials-section" id="testimonials">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-label">Đánh giá khách hàng</span>
+                    <h2 class="section-title">Nhận xét từ du khách</h2>
+                    <p class="section-subtitle">Cảm nhận từ những vị khách đã ghé thăm và tìm lại sự tĩnh lặng tại TĨNH HOMESTAY.</p>
+                </div>
+                <div class="testimonials-grid">
+                    <!-- Review Card 1 -->
+                    <div class="testimonial-card scroll-reveal revealed">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text" data-key="review-text-1">Một không gian tuyệt vời để trốn khỏi khói bụi thành phố. Thiết kế tối giản tinh tế, mọi góc nhỏ đều hài hòa với tự nhiên. Chắc chắn sẽ quay lại!</p>
+                        <h4 class="testimonial-author" data-key="review-author-1">Nguyễn Minh Anh - Hà Nội</h4>
+                    </div>
+                    <!-- Review Card 2 -->
+                    <div class="testimonial-card scroll-reveal revealed">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text" data-key="review-text-2">Hồ Đầm Đa buổi sáng sương phủ mờ ảo như chốn bồng lai. Chèo thuyền kayak đón bình minh trước cửa phòng cabin là trải nghiệm không thể quên.</p>
+                        <h4 class="testimonial-author" data-key="review-author-2">Lê Hoài Nam - TP. Hồ Chí Minh</h4>
+                    </div>
+                    <!-- Review Card 3 -->
+                    <div class="testimonial-card scroll-reveal revealed">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text" data-key="review-text-3">Món ăn Mường bản địa do chính người dân chuẩn bị rất ngon và đậm vị. Dịch vụ ấm áp, thân thiện. Cảm ơn Tĩnh Homestay!</p>
+                        <h4 class="testimonial-author" data-key="review-author-3">Phan Thu Trang - Hải Phòng</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Slide Banner Section -->
+        <section class="gallery-carousel-section" id="gallery-carousel">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-label">Khoảnh khắc bình yên</span>
+                    <h2 class="section-title">Góc ảnh Trải Nghiệm tại Homestay</h2>
+                    <p class="section-subtitle">Những hình ảnh chân thực được ghi lại bởi chúng tôi và du khách.</p>
+                </div>
+                
+                <div class="carousel-container-wrapper">
+                    <!-- The actual sliding carousel -->
+                    <div class="experience-carousel" id="experience-carousel">
+                        <div class="carousel-track" id="carousel-track">
+                            <!-- Slides will be dynamically injected here by JS from gallery-images database key -->
+                        </div>
+                        
+                        <!-- Navigation Arrows -->
+                        <button class="carousel-btn prev-btn" id="carousel-prev" aria-label="Previous Slide" type="button">‹</button>
+                        <button class="carousel-btn next-btn" id="carousel-next" aria-label="Next Slide" type="button">›</button>
+
+                        <!-- Admin Manage Button -->
+                        <button class="admin-gallery-btn" id="admin-manage-gallery-btn" type="button">
+                            <i class="fa-solid fa-images"></i> Quản lý Ảnh Slide
+                        </button>
+                    </div>
+                    
+                    <!-- Hidden gallery data storage container -->
+                    <div id="gallery-data-container" data-key="gallery-images" style="display:none;">["assets/room_forest.jpg","assets/room_lake.jpg","assets/room_zen.jpg"]</div>
                 </div>
             </div>
         </section>
@@ -494,6 +606,8 @@
                                     <option value="mo-village" data-price="1200000">Phòng Container T1 (1.200.000&nbsp;đ/đêm)</option>
                                     <option value="dam-da" data-price="1500000">Phòng container T2 (1.500.000&nbsp;đ/đêm)</option>
                                     <option value="lac-thuy-retreat" data-price="1800000">Nhà sàn T2 (1.800.000&nbsp;đ/đêm)</option>
+                                    <option value="phong-cay" data-price="1400000">Phòng Cây (1.400.000&nbsp;đ/đêm)</option>
+                                    <option value="nha-san-cong-dong" data-price="3000000">Nhà sàn cộng đồng (3.000.000&nbsp;đ/đêm)</option>
                                 </select>
                             </div>
                             
@@ -703,6 +817,35 @@
                             <span class="bar-val">6%</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Manage Gallery Modal -->
+    <div class="modal" id="admin-gallery-modal">
+        <div class="modal-overlay" id="admin-gallery-overlay"></div>
+        <div class="modal-content max-width-md" style="max-width: 500px;">
+            <button class="modal-close-btn" id="admin-gallery-close" aria-label="Đóng">×</button>
+            <div class="modal-body">
+                <div class="modal-header-section text-center">
+                    <h3 class="modal-title">Quản Lý Banner Ảnh Slide</h3>
+                    <p class="modal-subtitle">Thêm hoặc xóa hình ảnh trải nghiệm homestay</p>
+                </div>
+                
+                <!-- Slide List Grid -->
+                <div class="admin-gallery-grid" id="admin-gallery-list">
+                    <!-- Thumbnails will be rendered dynamically here -->
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="admin-gallery-actions" style="margin-top: 20px; display: flex; gap: 10px;">
+                    <button class="btn-outline full-width" id="admin-add-gallery-online" type="button">
+                        <i class="fa-solid fa-link"></i> Thêm bằng Link Ảnh
+                    </button>
+                    <button class="btn-primary full-width" id="admin-add-gallery-local" type="button">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Tải Ảnh Từ Máy
+                    </button>
                 </div>
             </div>
         </div>
