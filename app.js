@@ -74,10 +74,15 @@ document.addEventListener("DOMContentLoaded", () => {
     let totalVisits = 0;
     
     // Load saved content, visitor stats and sync on init
-    loadSavedContent();
-    syncRoomsDataFromDOM();
-    setupDateFields();
-    updateVisitorCounter();
+    try {
+        loadSavedContent();
+        syncRoomsDataFromDOM();
+        setupDateFields();
+        updateVisitorCounter();
+    } catch (e) {
+        alert("Lỗi khởi tạo JavaScript: " + e.message + "\n" + e.stack);
+        console.error("Initialization Error: ", e);
+    }
 
     // ------------------------------------------------
     // 3. THEME TOGGLE (LIGHT / DARK MODE)
