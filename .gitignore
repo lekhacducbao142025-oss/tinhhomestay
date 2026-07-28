@@ -1,3 +1,0 @@
-# Git ignore — data/content.json được quản lý riêng qua GitHub Contents API
-# Không track qua git để tránh conflict khi JS tự push qua API
-data/content.json
