@@ -629,10 +629,27 @@ document.addEventListener("DOMContentLoaded", () => {
         bookRoomSelect.addEventListener("mousedown", handleSelectEdit);
     }
 
-    // Activate Admin Mode directly without password
+    // Open login modal
     adminLoginTrigger.addEventListener("click", (e) => {
         e.preventDefault();
-        enableAdminMode(true);
+        openModal(adminLoginModal);
+    });
+
+    // Handle Login Submit
+    adminLoginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const pwdInput = document.getElementById("admin-password").value;
+        const currentHash = localStorage.getItem("amani_pwd_hash") || DEFAULT_PASSWORD_HASH;
+        
+        const inputHash = await sha256(pwdInput);
+        
+        if (inputHash === currentHash) {
+            closeModal(adminLoginModal);
+            adminLoginForm.reset();
+            enableAdminMode(true);
+        } else {
+            showToast("Sai mật khẩu quản trị. Vui lòng thử lại!", true);
+        }
     });
 
     // Check if already logged in in this session (silent restore — no toast)
@@ -714,7 +731,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Update page title if they edit the logo
             if (key === "logo-serif" || key === "logo-sans") {
                 const serif = document.querySelector('[data-key="logo-serif"]')?.innerText || "Amani";
-                 document.title = `${serif}${sans} - nghỉ dưỡng đơn giản tại LẠC THỦY`;
+                const sans = document.querySelector('[data-key="logo-sans"]')?.innerText || "Lạc Thủy";
+                document.title = `${serif}${sans} - nghỉ dưỡng đơn giản tại LẠC THỦY`;
             }
         });
     });
@@ -725,8 +743,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function enableAdminMode(showWelcome = false) {
         body.classList.add("admin-mode-active");
         sessionStorage.setItem("amani_admin_active", "true");
-        if (showWelcome) showToast("Đã kích hoạt chế độ chỉnh sửa!");
-        if (adminPwdBtn) adminPwdBtn.style.display = "none";
+        if (showWelcome) showToast("Đăng nhập quyền quản trị thành công!");
         
         // Make text editable
         document.querySelectorAll("[data-key]").forEach(el => {
