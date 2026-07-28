@@ -646,16 +646,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (inputHash === currentHash) {
             closeModal(adminLoginModal);
             adminLoginForm.reset();
-            enableAdminMode();
-            showToast("Đăng nhập quyền quản trị thành công!");
+            enableAdminMode(true);
         } else {
             showToast("Sai mật khẩu quản trị. Vui lòng thử lại!", true);
         }
     });
 
-    // Check if already logged in in this session
+    // Check if already logged in in this session (silent restore — no toast)
     if (sessionStorage.getItem("amani_admin_active") === "true") {
-        enableAdminMode();
+        enableAdminMode(false);
     }
 
     // Admin Logout
@@ -741,9 +740,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // ----------------------------------------------------
     // 13. ADMIN FUNCTIONS (INLINE EDIT & SERIALIZE)
     // ----------------------------------------------------
-    function enableAdminMode() {
+    function enableAdminMode(showWelcome = false) {
         body.classList.add("admin-mode-active");
         sessionStorage.setItem("amani_admin_active", "true");
+        if (showWelcome) showToast("Đăng nhập quyền quản trị thành công!");
         
         // Make text editable
         document.querySelectorAll("[data-key]").forEach(el => {
