@@ -807,12 +807,80 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
     }
 
-    // SHA-256 hashing helper
+    // SHA-256 hashing helper with pure JS fallback for insecure contexts (like file:// protocol)
+    function sha256_fallback(ascii) {
+        function rightRotate(value, amount) {
+            return (value >>> amount) | (value << (32 - amount));
+        }
+        var mathPow = Math.pow;
+        var maxWord = mathPow(2, 32);
+        var lengthProperty = 'length';
+        var i, j;
+        var result = '';
+        var words = [];
+        var asciiLength = ascii[lengthProperty] * 8;
+        var hash = sha256_fallback.h = sha256_fallback.h || [];
+        var k = sha256_fallback.k = sha256_fallback.k || [];
+        var primeCounter = k[lengthProperty];
+        var isPrime = {};
+        for (var factor = 2; primeCounter < 64; factor++) {
+            if (!isPrime[factor]) {
+                for (i = 0; i < 313; i += factor) {
+                    isPrime[i] = factor;
+                }
+                hash[primeCounter] = (mathPow(factor, .5) * maxWord) | 0;
+                k[primeCounter++] = (mathPow(factor, 1 / 3) * maxWord) | 0;
+            }
+        }
+        ascii += '\x80';
+        while (ascii[lengthProperty] % 64 - 56) ascii += '\x00';
+        for (i = 0; i < ascii[lengthProperty]; i++) {
+            j = ascii.charCodeAt(i);
+            if (j >> 8) return "";
+            words[i >> 2] |= j << (24 - (i % 4) * 8);
+        }
+        words[words[lengthProperty]] = ((asciiLength / maxWord) | 0);
+        words[words[lengthProperty]] = (asciiLength);
+        for (j = 0; j < words[lengthProperty]; j += 16) {
+            var w = [];
+            for (i = 0; i < 16; i++) w[i] = words[j + i];
+            for (i = 16; i < 64; i++) {
+                var s0 = rightRotate(w[i - 15], 7) ^ rightRotate(w[i - 15], 18) ^ (w[i - 15] >>> 3);
+                var s1 = rightRotate(w[i - 2], 17) ^ rightRotate(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+                w[i] = (w[i - 16] + s0 + w[i - 7] + s1) | 0;
+            }
+            var a = hash[0], b = hash[1], c = hash[2], d = hash[3], e = hash[4], f = hash[5], g = hash[6], h = hash[7];
+            for (i = 0; i < 64; i++) {
+                var S1 = rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25);
+                var ch = (e & f) ^ (~e & g);
+                var temp1 = (h + S1 + ch + k[i] + w[i]) | 0;
+                var S0 = rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22);
+                var maj = (a & b) ^ (a & c) ^ (b & c);
+                var temp2 = (S0 + maj) | 0;
+                h = g; g = f; f = e; e = (d + temp1) | 0; d = c; c = b; b = a; a = (temp1 + temp2) | 0;
+            }
+            hash[0] = (hash[0] + a) | 0; hash[1] = (hash[1] + b) | 0; hash[2] = (hash[2] + c) | 0; hash[3] = (hash[3] + d) | 0;
+            hash[4] = (hash[4] + e) | 0; hash[5] = (hash[5] + f) | 0; hash[6] = (hash[6] + g) | 0; hash[7] = (hash[7] + h) | 0;
+        }
+        for (i = 0; i < 8; i++) {
+            var val = hash[i];
+            if (val < 0) val += maxWord;
+            var strHex = val.toString(16);
+            while (strHex.length < 8) strHex = '0' + strHex;
+            result += strHex;
+        }
+        return result;
+    }
+
     async function sha256(message) {
-        const msgBuffer = new TextEncoder().encode(message);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        if (window.crypto && window.crypto.subtle) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        } else {
+            return sha256_fallback(message);
+        }
     }
 
     // -----------------------------------------------
