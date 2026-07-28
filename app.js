@@ -629,27 +629,10 @@ document.addEventListener("DOMContentLoaded", () => {
         bookRoomSelect.addEventListener("mousedown", handleSelectEdit);
     }
 
-    // Open login modal
+    // Activate Admin Mode directly without password
     adminLoginTrigger.addEventListener("click", (e) => {
         e.preventDefault();
-        openModal(adminLoginModal);
-    });
-
-    // Handle Login Submit
-    adminLoginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const pwdInput = document.getElementById("admin-password").value;
-        const currentHash = localStorage.getItem("amani_pwd_hash") || DEFAULT_PASSWORD_HASH;
-        
-        const inputHash = await sha256(pwdInput);
-        
-        if (inputHash === currentHash) {
-            closeModal(adminLoginModal);
-            adminLoginForm.reset();
-            enableAdminMode(true);
-        } else {
-            showToast("Sai mật khẩu quản trị. Vui lòng thử lại!", true);
-        }
+        enableAdminMode(true);
     });
 
     // Check if already logged in in this session (silent restore — no toast)
@@ -742,7 +725,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function enableAdminMode(showWelcome = false) {
         body.classList.add("admin-mode-active");
         sessionStorage.setItem("amani_admin_active", "true");
-        if (showWelcome) showToast("Đăng nhập quyền quản trị thành công!");
+        if (showWelcome) showToast("Đã kích hoạt chế độ chỉnh sửa!");
+        if (adminPwdBtn) adminPwdBtn.style.display = "none";
         
         // Make text editable
         document.querySelectorAll("[data-key]").forEach(el => {
