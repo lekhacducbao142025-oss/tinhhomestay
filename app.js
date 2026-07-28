@@ -938,14 +938,16 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll("[data-img-key]").forEach(el => {
                 const key = el.getAttribute("data-img-key");
                 if (imageData[key]) {
-                    el.setAttribute("src", imageData[key]);
+                    const cleanSrc = imageData[key].replace(/&quot;/g, "").replace(/&amp;/g, "").replace(/[\"\']/g, "").trim();
+                    el.setAttribute("src", cleanSrc);
                 }
             });
 
             document.querySelectorAll("[data-bg-key]").forEach(el => {
                 const key = el.getAttribute("data-bg-key");
                 if (imageData[key]) {
-                    el.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('${imageData[key]}')`;
+                    const cleanUrl = imageData[key].replace(/&quot;/g, "").replace(/&amp;/g, "").replace(/[\"\']/g, "").trim();
+                    el.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('${cleanUrl}')`;
                 }
             });
         }
