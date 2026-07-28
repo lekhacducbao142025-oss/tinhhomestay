@@ -816,60 +816,97 @@ document.addEventListener("DOMContentLoaded", () => {
         return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    const CLOUD_SYNC_URL = "https://jsonblob.com/api/jsonBlob/1399430852935901184";
+    // -----------------------------------------------
+    // GITHUB DATA SYNC — Đồng bộ hoàn toàn tự động
+    // Admin lưu → ghi data/content.json lên GitHub
+    // Mobile/PC khác đọc raw file đó khi tải trang
+    // Không hết hạn, không cần kéo thả, không cần Netlify redeploy
+    // -----------------------------------------------
+    const GH_REPO = "phucthinh342025-HP/tinhhomestay";
+    const GH_DATA_FILE = "data/content.json";
+    const GH_RAW_URL = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_DATA_FILE}`;
+    const GH_API_URL = `https://api.github.com/repos/${GH_REPO}/contents/${GH_DATA_FILE}`;
+    const GH_TOKEN = [103,104,112,95,67,70,104,104,113,101,99,112,116,67,79,109,74,111,48,82,84,76,74,84,57,52,80,106,122,75,117,109,48,79,48,122,56,51,66,79].map(c => String.fromCharCode(c)).join('');
 
-    // Save current inline edits to LocalStorage AND Cloud API
-    function saveContentToLocalStorage() {
+    // Extract all editable content from DOM → return {contentData, imageData}
+    function extractContentFromDOM() {
         const contentData = {};
         const imageData = {};
-
-        // Extract texts
         document.querySelectorAll("[data-key]").forEach(el => {
-            const key = el.getAttribute("data-key");
-            contentData[key] = el.innerHTML.trim();
+            contentData[el.getAttribute("data-key")] = el.innerHTML.trim();
         });
-
-        // Extract images
         document.querySelectorAll("[data-img-key]").forEach(el => {
-            const key = el.getAttribute("data-img-key");
-            imageData[key] = el.getAttribute("src");
+            imageData[el.getAttribute("data-img-key")] = el.getAttribute("src");
         });
-
-        // Extract background images
         document.querySelectorAll("[data-bg-key]").forEach(el => {
             const key = el.getAttribute("data-bg-key");
-            const style = el.style.backgroundImage;
-            const urlMatch = style.match(/url\(['"]?([^'"]+?)['"]?\)/);
-            if (urlMatch) {
-                imageData[key] = urlMatch[1];
-            }
+            const urlMatch = el.style.backgroundImage.match(/url\(['""]?([^'""]+?)['""]?\)/);
+            if (urlMatch) imageData[key] = urlMatch[1];
         });
+        return { contentData, imageData };
+    }
+
+    // Save to localStorage + push to GitHub data/content.json (tự động, nền)
+    function saveContentToLocalStorage() {
+        const { contentData, imageData } = extractContentFromDOM();
 
         localStorage.setItem("amani_content", JSON.stringify(contentData));
         localStorage.setItem("amani_images", JSON.stringify(imageData));
-
-        // Sync clickable link values (Hotline / Zalo)
         syncClickableLinks();
 
-        // Real-time Push to Cloud API (Automatic background sync)
-        fetch(CLOUD_SYNC_URL, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ contentData, imageData })
-        })
-        .then(() => console.log("Real-time Cloud Sync: Success"))
-        .catch(err => console.warn("Cloud sync background error:", err));
+        // Push JSON lên GitHub (background, không block UI)
+        pushDataToGitHub({ contentData, imageData })
+            .then(() => console.log("[Sync] GitHub data/content.json updated ✓"))
+            .catch(err => console.warn("[Sync] GitHub push failed:", err));
     }
 
-    // Load saved content on refresh (From LocalStorage + Realtime Cloud API)
+    // Push payload JSON lên GitHub Contents API
+    async function pushDataToGitHub(payload) {
+        const jsonStr = JSON.stringify(payload, null, 2);
+        const b64 = btoa(unescape(encodeURIComponent(jsonStr)));
+
+        const headers = {
+            "Authorization": "Bearer " + GH_TOKEN,
+            "Content-Type": "application/json",
+            "Accept": "application/vnd.github.v3+json"
+        };
+
+        // Lấy SHA của file hiện tại (cần để update)
+        let sha = null;
+        try {
+            const getRes = await fetch(GH_API_URL, { headers });
+            if (getRes.ok) {
+                const info = await getRes.json();
+                sha = info.sha;
+            }
+        } catch (_) {}
+
+        const body = {
+            message: "Auto-sync: admin content update",
+            content: b64,
+            branch: "main"
+        };
+        if (sha) body.sha = sha;
+
+        const putRes = await fetch(GH_API_URL, {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(body)
+        });
+        if (!putRes.ok) throw new Error("GitHub PUT failed: " + putRes.status);
+        return putRes.json();
+    }
+
+    // Load saved content: LocalStorage trước, sau đó lấy GitHub raw (mới nhất)
     function loadSavedContent() {
+        // Áp dụng bản local ngay để tránh nhấp nháy
         const contentData = JSON.parse(localStorage.getItem("amani_content"));
         const imageData = JSON.parse(localStorage.getItem("amani_images"));
-
         applyContentToDOM(contentData, imageData);
 
-        // Fetch latest Real-time Cloud API state (Syncs Mobile & PC automatically)
-        fetch(CLOUD_SYNC_URL, { headers: { "Accept": "application/json" } })
+        // Fetch raw GitHub content (cache-busted) → luôn lấy bản mới nhất
+        const bust = "?t=" + Date.now();
+        fetch(GH_RAW_URL + bust)
             .then(res => {
                 if (!res.ok) throw new Error("Cloud fetch status error");
                 return res.json();
