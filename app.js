@@ -636,45 +636,39 @@ document.addEventListener("DOMContentLoaded", () => {
         // Prevent opening dropdown
         e.preventDefault();
         
+        const name1 = document.querySelector('[data-key="room-name-1"]')?.innerText || "Phòng Gỗ";
+        const name2 = document.querySelector('[data-key="room-name-2"]')?.innerText || "Phòng Đá";
+        const name3 = document.querySelector('[data-key="room-name-3"]')?.innerText || "Phòng Cá";
+        const name4 = document.querySelector('[data-key="room-name-4"]')?.innerText || "Phòng Cây";
+        const name5 = document.querySelector('[data-key="room-name-5"]')?.innerText || "Nhà sàn cộng đồng";
+
         const choice = prompt(
             "CHỈNH SỬA DANH SÁCH PHÒNG NGHỈ:\n" +
-            "1. Sửa phòng 1 (Hiện tại: " + (document.querySelector('[data-key="room-name-1"]')?.innerText || "Mơ Village Bungalow") + ")\n" +
-            "2. Sửa phòng 2 (Hiện tại: " + (document.querySelector('[data-key="room-name-2"]')?.innerText || "Đầm Đa Lake Cabin") + ")\n" +
-            "3. Sửa phòng 3 (Hiện tại: " + (document.querySelector('[data-key="room-name-3"]')?.innerText || "Lạc Thủy Retreat") + ")\n\n" +
-            "Nhập số tương ứng (1, 2, hoặc 3) để đổi tên phòng:"
+            "1. Sửa phòng 1 (Hiện tại: " + name1 + ")\n" +
+            "2. Sửa phòng 2 (Hiện tại: " + name2 + ")\n" +
+            "3. Sửa phòng 3 (Hiện tại: " + name3 + ")\n" +
+            "4. Sửa phòng 4 (Hiện tại: " + name4 + ")\n" +
+            "5. Sửa phòng 5 (Hiện tại: " + name5 + ")\n\n" +
+            "Nhập số tương ứng (1, 2, 3, 4, 5) để đổi tên phòng:"
         );
         
-        if (choice === "1") {
-            const currentName = document.querySelector('[data-key="room-name-1"]')?.innerText || "";
-            const newName = prompt("Nhập tên mới cho Phòng 1:", currentName);
+        const updateRoomName = (keyNum, defaultName) => {
+            const currentName = document.querySelector(`[data-key="room-name-${keyNum}"]`)?.innerText || defaultName;
+            const newName = prompt(`Nhập tên mới cho Phòng ${keyNum}:`, currentName);
             if (newName && newName.trim() !== "") {
-                const el = document.querySelector('[data-key="room-name-1"]');
+                const el = document.querySelector(`[data-key="room-name-${keyNum}"]`);
                 if (el) el.innerHTML = newName.trim();
                 saveContentToLocalStorage();
                 syncRoomsDataFromDOM();
-                showToast("Đã đổi tên Phòng 1 thành công!");
+                showToast(`Đã đổi tên Phòng ${keyNum} thành công!`);
             }
-        } else if (choice === "2") {
-            const currentName = document.querySelector('[data-key="room-name-2"]')?.innerText || "";
-            const newName = prompt("Nhập tên mới cho Phòng 2:", currentName);
-            if (newName && newName.trim() !== "") {
-                const el = document.querySelector('[data-key="room-name-2"]');
-                if (el) el.innerHTML = newName.trim();
-                saveContentToLocalStorage();
-                syncRoomsDataFromDOM();
-                showToast("Đã đổi tên Phòng 2 thành công!");
-            }
-        } else if (choice === "3") {
-            const currentName = document.querySelector('[data-key="room-name-3"]')?.innerText || "";
-            const newName = prompt("Nhập tên mới cho Phòng 3:", currentName);
-            if (newName && newName.trim() !== "") {
-                const el = document.querySelector('[data-key="room-name-3"]');
-                if (el) el.innerHTML = newName.trim();
-                saveContentToLocalStorage();
-                syncRoomsDataFromDOM();
-                showToast("Đã đổi tên Phòng 3 thành công!");
-            }
-        }
+        };
+
+        if (choice === "1") updateRoomName(1, "Phòng Gỗ");
+        else if (choice === "2") updateRoomName(2, "Phòng Đá");
+        else if (choice === "3") updateRoomName(3, "Phòng Cá");
+        else if (choice === "4") updateRoomName(4, "Phòng Cây");
+        else if (choice === "5") updateRoomName(5, "Nhà sàn cộng đồng");
     };
 
 
@@ -1572,6 +1566,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setupAdminGalleryManager() {
         const manageBtn = document.getElementById("admin-manage-gallery-btn");
+        const manageBarBtn = document.getElementById("admin-slide-bar-btn");
         const galleryModal = document.getElementById("admin-gallery-modal");
         const galleryClose = document.getElementById("admin-gallery-close");
         const galleryOverlay = document.getElementById("admin-gallery-overlay");
@@ -1581,7 +1576,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const addOnlineBtn = document.getElementById("admin-add-gallery-online");
         const addLocalBtn = document.getElementById("admin-add-gallery-local");
 
-        if (!manageBtn || !galleryModal || !dataContainer) return;
+        if ((!manageBtn && !manageBarBtn) || !galleryModal || !dataContainer) return;
 
         // Register modal close
         const closeGalleryModal = () => {
@@ -1590,10 +1585,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (galleryClose) galleryClose.addEventListener("click", closeGalleryModal);
         if (galleryOverlay) galleryOverlay.addEventListener("click", closeGalleryModal);
 
-        manageBtn.addEventListener("click", () => {
+        const openGalleryModal = () => {
             renderGalleryManagerList();
             openModal(galleryModal);
-        });
+        };
+        if (manageBtn) manageBtn.addEventListener("click", openGalleryModal);
+        if (manageBarBtn) manageBarBtn.addEventListener("click", openGalleryModal);
 
         function getGalleryImages() {
             try {
