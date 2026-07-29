@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Load saved content, visitor stats and sync on init
     try {
+        ensureAllDynamicFeaturesExist();
         loadSavedContent();
         syncRoomsDataFromDOM();
         setupDateFields();
@@ -1175,6 +1176,206 @@ document.addEventListener("DOMContentLoaded", () => {
         if (quickOption3) quickOption3.text = name3;
         if (quickOption4) quickOption4.text = name4;
         if (quickOption5) quickOption5.text = name5;
+    }
+
+    // Ensure all 5 rooms, select options, testimonials section, and slide gallery elements are injected if missing from HTML
+    function ensureAllDynamicFeaturesExist() {
+        const quickRoom = document.getElementById("quick-room");
+        if (quickRoom) {
+            if (!quickRoom.querySelector('option[value="phong-cay"]')) {
+                const opt4 = document.createElement("option");
+                opt4.value = "phong-cay";
+                opt4.textContent = "Phòng Cây";
+                quickRoom.appendChild(opt4);
+            }
+            if (!quickRoom.querySelector('option[value="nha-san-cong-dong"]')) {
+                const opt5 = document.createElement("option");
+                opt5.value = "nha-san-cong-dong";
+                opt5.textContent = "Nhà sàn cộng đồng";
+                quickRoom.appendChild(opt5);
+            }
+        }
+
+        const bookRoom = document.getElementById("book-room");
+        if (bookRoom) {
+            if (!bookRoom.querySelector('option[value="phong-cay"]')) {
+                const opt4 = document.createElement("option");
+                opt4.value = "phong-cay";
+                opt4.setAttribute("data-price", "1400000");
+                opt4.textContent = "Phòng Cây (1.400.000 đ/đêm)";
+                bookRoom.appendChild(opt4);
+            }
+            if (!bookRoom.querySelector('option[value="nha-san-cong-dong"]')) {
+                const opt5 = document.createElement("option");
+                opt5.value = "nha-san-cong-dong";
+                opt5.setAttribute("data-price", "3000000");
+                opt5.textContent = "Nhà sàn cộng đồng (3.000.000 đ/đêm)";
+                bookRoom.appendChild(opt5);
+            }
+        }
+
+        const roomsGrid = document.querySelector(".rooms-grid");
+        if (roomsGrid) {
+            if (!roomsGrid.querySelector('[data-room-id="phong-cay"]')) {
+                const card4 = document.createElement("div");
+                card4.className = "room-card scroll-reveal revealed";
+                card4.setAttribute("data-room-id", "phong-cay");
+                card4.setAttribute("data-price", "1400000");
+                card4.innerHTML = `
+                    <div class="room-img-wrapper">
+                        <img src="assets/room_zen.jpg" alt="Phòng Cây" class="room-img" data-img-key="room-img-4">
+                        <div class="room-price"><span data-key="room-price-4">1.400.000</span>đ<span>/đêm</span></div>
+                    </div>
+                    <div class="room-info">
+                        <h3 class="room-name" data-key="room-name-4">Phòng Cây</h3>
+                        <p class="room-desc" data-key="room-desc-4">Cabin tổ chim độc đáo nép mình giữa những tán cây cổ thụ, mang lại cảm giác chạm tay vào lá xanh và ngắm thung lũng từ trên cao.</p>
+                        <ul class="room-amenities">
+                            <li><i class="fa-solid fa-maximize"></i> 38m²</li>
+                            <li><i class="fa-solid fa-user-group"></i> Tối đa 2 người</li>
+                            <li><i class="fa-solid fa-tree"></i> Tán cây cổ thụ</li>
+                            <li><i class="fa-solid fa-eye"></i> View thung lũng</li>
+                        </ul>
+                        <div class="room-card-actions">
+                            <button class="btn-outline view-details-btn" data-room="phong-cay">Chi Tiết</button>
+                            <button class="btn-primary book-now-btn" data-room="phong-cay">Đặt Phòng</button>
+                        </div>
+                    </div>`;
+                roomsGrid.appendChild(card4);
+            }
+
+            if (!roomsGrid.querySelector('[data-room-id="nha-san-cong-dong"]')) {
+                const card5 = document.createElement("div");
+                card5.className = "room-card scroll-reveal revealed";
+                card5.setAttribute("data-room-id", "nha-san-cong-dong");
+                card5.setAttribute("data-price", "3000000");
+                card5.innerHTML = `
+                    <div class="room-img-wrapper">
+                        <img src="assets/hero_homestay.jpg" alt="Nhà sàn cộng đồng" class="room-img" data-img-key="room-img-5">
+                        <div class="room-price"><span data-key="room-price-5">3.000.000</span>đ<span>/đêm</span></div>
+                    </div>
+                    <div class="room-info">
+                        <h3 class="room-name" data-key="room-name-5">Nhà sàn cộng đồng</h3>
+                        <p class="room-desc" data-key="room-desc-5">Kiến trúc nhà sàn nguyên bản rộng rãi, sức chứa lớn từ 10-15 người. Thích hợp cho các hoạt động teambuilding, gia đình lớn sum họp.</p>
+                        <ul class="room-amenities">
+                            <li><i class="fa-solid fa-maximize"></i> 120m²</li>
+                            <li><i class="fa-solid fa-users"></i> Sức chứa 10-15 người</li>
+                            <li><i class="fa-solid fa-campground"></i> Không gian mở</li>
+                            <li><i class="fa-solid fa-utensils"></i> Bếp BBQ lớn</li>
+                        </ul>
+                        <div class="room-card-actions">
+                            <button class="btn-outline view-details-btn" data-room="nha-san-cong-dong">Chi Tiết</button>
+                            <button class="btn-primary book-now-btn" data-room="nha-san-cong-dong">Đặt Phòng</button>
+                        </div>
+                    </div>`;
+                roomsGrid.appendChild(card5);
+            }
+        }
+
+        if (!document.getElementById("testimonials")) {
+            const expSec = document.getElementById("experiences");
+            if (expSec) {
+                const testSec = document.createElement("section");
+                testSec.className = "testimonials-section";
+                testSec.id = "testimonials";
+                testSec.innerHTML = `
+                    <div class="container">
+                        <div class="section-header text-center">
+                            <span class="section-label">Đánh giá khách hàng</span>
+                            <h2 class="section-title">Nhận xét từ du khách</h2>
+                            <p class="section-subtitle">Cảm nhận từ những vị khách đã ghé thăm và tìm lại sự tĩnh lặng tại TĨNH HOMESTAY.</p>
+                        </div>
+                        <div class="testimonials-grid">
+                            <div class="testimonial-card scroll-reveal revealed">
+                                <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                <p class="testimonial-text" data-key="review-text-1">Một không gian tuyệt vời để trốn khỏi khói bụi thành phố. Thiết kế tối giản tinh tế, mọi góc nhỏ đều hài hòa với tự nhiên. Chắc chắn sẽ quay lại!</p>
+                                <h4 class="testimonial-author" data-key="review-author-1">Nguyễn Minh Anh - Hà Nội</h4>
+                            </div>
+                            <div class="testimonial-card scroll-reveal revealed">
+                                <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                <p class="testimonial-text" data-key="review-text-2">Hồ Đầm Đa buổi sáng sương phủ mờ ảo như chốn bồng lai. Chèo thuyền kayak đón bình minh trước cửa phòng cabin là trải nghiệm không thể quên.</p>
+                                <h4 class="testimonial-author" data-key="review-author-2">Lê Hoài Nam - TP. Hồ Chí Minh</h4>
+                            </div>
+                            <div class="testimonial-card scroll-reveal revealed">
+                                <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                                <p class="testimonial-text" data-key="review-text-3">Món ăn Mường bản địa do chính người dân chuẩn bị rất ngon và đậm vị. Dịch vụ ấm áp, thân thiện. Cảm ơn Tĩnh Homestay!</p>
+                                <h4 class="testimonial-author" data-key="review-author-3">Phan Thu Trang - Hải Phòng</h4>
+                            </div>
+                        </div>
+                    </div>`;
+                expSec.parentNode.insertBefore(testSec, expSec.nextSibling);
+            }
+        }
+
+        if (!document.getElementById("gallery-carousel")) {
+            const testSec = document.getElementById("testimonials") || document.getElementById("experiences");
+            if (testSec) {
+                const galSec = document.createElement("section");
+                galSec.className = "gallery-carousel-section";
+                galSec.id = "gallery-carousel";
+                galSec.innerHTML = `
+                    <div class="container">
+                        <div class="section-header text-center">
+                            <span class="section-label">Khoảnh khắc bình yên</span>
+                            <h2 class="section-title">Góc ảnh Trải Nghiệm tại Homestay</h2>
+                            <p class="section-subtitle">Những hình ảnh chân thực được ghi lại bởi chúng tôi và du khách.</p>
+                        </div>
+                        <div class="gallery-carousel-wrapper">
+                            <div class="carousel-track-container">
+                                <div class="carousel-track" id="carousel-track"></div>
+                                <button class="carousel-btn prev-btn" id="carousel-prev" aria-label="Previous Slide" type="button">‹</button>
+                                <button class="carousel-btn next-btn" id="carousel-next" aria-label="Next Slide" type="button">›</button>
+                                <button class="admin-gallery-btn" id="admin-manage-gallery-btn" type="button">
+                                    <i class="fa-solid fa-images"></i> Quản lý Ảnh Slide
+                                </button>
+                            </div>
+                            <div id="gallery-data-container" data-key="gallery-images" style="display:none;">["assets/room_forest.jpg","assets/room_lake.jpg","assets/room_zen.jpg"]</div>
+                        </div>
+                    </div>`;
+                testSec.parentNode.insertBefore(galSec, testSec.nextSibling);
+            }
+        }
+
+        if (!document.getElementById("admin-gallery-modal")) {
+            const modalDiv = document.createElement("div");
+            modalDiv.className = "modal";
+            modalDiv.id = "admin-gallery-modal";
+            modalDiv.innerHTML = `
+                <div class="modal-overlay" id="admin-gallery-overlay"></div>
+                <div class="modal-content max-width-md" style="max-width: 500px;">
+                    <button class="modal-close-btn" id="admin-gallery-close" aria-label="Đóng">×</button>
+                    <div class="modal-body">
+                        <div class="modal-header-section text-center">
+                            <h3 class="modal-title">Quản Lý Banner Ảnh Slide</h3>
+                            <p class="modal-subtitle">Thêm hoặc xóa hình ảnh trải nghiệm homestay</p>
+                        </div>
+                        <div class="admin-gallery-grid" id="admin-gallery-list"></div>
+                        <div class="admin-gallery-actions" style="margin-top: 20px; display: flex; gap: 10px;">
+                            <button class="btn-outline full-width" id="admin-add-gallery-online" type="button">
+                                <i class="fa-solid fa-link"></i> Thêm bằng Link Ảnh
+                            </button>
+                            <button class="btn-primary full-width" id="admin-add-gallery-local" type="button">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Tải Ảnh Từ Máy
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+            document.body.appendChild(modalDiv);
+        }
+
+        const adminBarActions = document.querySelector("#admin-bar .admin-bar-actions");
+        if (adminBarActions && !document.getElementById("admin-slide-bar-btn")) {
+            const slideBtn = document.createElement("button");
+            slideBtn.id = "admin-slide-bar-btn";
+            slideBtn.className = "btn-admin-bar";
+            slideBtn.type = "button";
+            slideBtn.innerHTML = '<i class="fa-solid fa-images"></i> Quản lý Ảnh Slide';
+            const saveBtn = document.getElementById("admin-save-btn");
+            if (saveBtn) {
+                adminBarActions.insertBefore(slideBtn, saveBtn.nextSibling);
+            } else {
+                adminBarActions.appendChild(slideBtn);
+            }
+        }
     }
 
     // Automatically sync edited texts to anchor links (tel: and zalo.me)
