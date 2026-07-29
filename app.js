@@ -1023,12 +1023,32 @@ document.addEventListener("DOMContentLoaded", () => {
         return putRes.json();
     }
 
+    // Kiểm tra chuỗi tiếng Việt có bị lỗi font (Mojibake/Box drawing characters) hay không
+    function isGarbledText(str) {
+        if (typeof str !== "string") return false;
+        return /[\u2500-\u257F\uFFFD]/.test(str) || /[├─┬┴┼│║╒╓╔╕╖╗╘╙╚╛╜╝╞╟╠╡╢╣╤╥╦╧╨╩╪╫╬ßµ±≥≤⌠⌡÷≈°∙·√ⁿ²■]/.test(str);
+    }
+
     // Load saved content: LocalStorage trước, sau đó lấy GitHub raw (mới nhất)
     function loadSavedContent() {
-        // Áp dụng bản local ngay để tránh nhấp nháy
-        const contentData = JSON.parse(localStorage.getItem("amani_content"));
-        const imageData = JSON.parse(localStorage.getItem("amani_images"));
-        applyContentToDOM(contentData, imageData);
+        // Tự động xóa bộ nhớ đệm LocalStorage nếu dính dữ liệu rác cũ
+        try {
+            const rawContent = localStorage.getItem("amani_content");
+            if (rawContent && isGarbledText(rawContent)) {
+                console.warn("Dữ liệu LocalStorage bị lỗi font. Đang tự động xóa bộ nhớ đệm...");
+                localStorage.removeItem("amani_content");
+                localStorage.removeItem("amani_images");
+            }
+        } catch (e) {}
+
+        // Áp dụng bản local nếu hợp lệ
+        try {
+            const contentData = JSON.parse(localStorage.getItem("amani_content"));
+            const imageData = JSON.parse(localStorage.getItem("amani_images"));
+            if (contentData && !isGarbledText(JSON.stringify(contentData))) {
+                applyContentToDOM(contentData, imageData);
+            }
+        } catch(e) {}
 
         // Fetch raw GitHub content (cache-busted) → luôn lấy bản mới nhất
         const bust = "?t=" + Date.now();
@@ -1039,7 +1059,12 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(cloudData => {
                 if (cloudData && cloudData.contentData) {
-                    localStorage.setItem("amani_content", JSON.stringify(cloudData.contentData));
+                    const jsonStr = JSON.stringify(cloudData.contentData);
+                    if (isGarbledText(jsonStr)) {
+                        console.warn("Dữ liệu GitHub Cloud bị lỗi font, bỏ qua không áp dụng.");
+                        return;
+                    }
+                    localStorage.setItem("amani_content", jsonStr);
                     if (cloudData.imageData) {
                         localStorage.setItem("amani_images", JSON.stringify(cloudData.imageData));
                     }
@@ -1053,7 +1078,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (contentData) {
             document.querySelectorAll("[data-key]").forEach(el => {
                 const key = el.getAttribute("data-key");
-                if (contentData[key] !== undefined) {
+                if (contentData[key] !== undefined && !isGarbledText(contentData[key])) {
                     el.innerHTML = contentData[key];
                 }
             });
