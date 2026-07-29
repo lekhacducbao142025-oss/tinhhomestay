@@ -6,29 +6,29 @@
 // ----------------------------------------------------
 let ROOMS_DATA = {
     "mo-village": {
-        name: "Mơ Village Bungalow",
+        name: "Phòng Gỗ",
         price: 1200000,
         img: "assets/room_forest.jpg",
         size: "35m²",
         guests: "Tối đa 2 người lớn",
         bed: "01 Giường King-size",
         view: "View thung lũng hoa mơ & núi đá vôi",
-        desc: "Mơ Village Bungalow mang phong cách tối giản Bắc Âu kết hợp với chất liệu gỗ thông tự nhiên bản địa. Tọa lạc trên sườn đồi cao nhất, Bungalow sở hữu hiên đón gió rộng rãi, cho bạn tầm nhìn bao quát toàn bộ thung lũng sương mờ Lạc Thủy. Mỗi buổi sáng thức dậy, chỉ cần kéo rèm cửa là cả một khoảng trời thung lũng ngập tràn sương nhẹ hiện ra trước mắt.",
+        desc: "Phòng gỗ ấm cúng nép mình dưới chân núi, sở hữu ban công rộng mở view trọn thung lũng hoa dã quỳ và những vạt núi đá vôi trùng trùng điệp điệp.",
         amenities: ["Wi-Fi miễn phí", "Bồn tắm đứng", "Loa Bluetooth", "Ban công riêng", "Trà & Cà phê tự pha", "Máy sấy tóc", "Điều hòa hai chiều"]
     },
     "dam-da": {
-        name: "Đầm Đa Lake Cabin",
+        name: "Phòng Đá",
         price: 1500000,
         img: "assets/room_lake.jpg",
         size: "40m²",
         guests: "Tối đa 2 người lớn",
         bed: "01 Giường King-size tràn viền",
         view: "Sát mặt hồ Đầm Đa",
-        desc: "Thiết kế độc đáo với mặt kính tràn cường lực nhìn thẳng ra hồ Đầm Đa phẳng lặng. Đầm Đa Lake Cabin được ví như chiếc gương soi khổng lồ giữa lòng thiên nhiên. Cabin được trang bị bồn tắm bằng đá tự nhiên ngoài hiên riêng, mang đến trải nghiệm ngâm mình thư giãn tuyệt đối dưới tán cây rừng, nghe tiếng cá đớp mồi và chim hót xa xăm.",
+        desc: "Phòng mặt kính tràn viền nằm sát mép hồ tự nhiên. Nơi lý tưởng nhất để đón sương mù buổi sớm và chèo thuyền kayak ngay trước cửa.",
         amenities: ["View hồ 180 độ", "Bồn tắm đá ngoài trời", "Thuyền Kayak riêng", "Wi-Fi miễn phí", "Máy chiếu phim HD", "Minibar", "Máy pha cà phê"]
     },
     "lac-thuy-retreat": {
-        name: "Lạc Thủy Retreat",
+        name: "Phòng Cá",
         price: 1800000,
         img: "assets/hero_homestay.jpg",
         size: "65m²",
@@ -1112,17 +1112,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Sync memory ROOMS_DATA from DOM values
     function syncRoomsDataFromDOM() {
         // Mo Village
-        const name1 = document.querySelector('[data-key="room-name-1"]')?.innerText || "Mơ Village Bungalow";
+        const name1 = document.querySelector('[data-key="room-name-1"]')?.innerText || "Phòng Gỗ";
         const price1 = parseInt((document.querySelector('[data-key="room-price-1"]')?.innerText || "1.200.000").replace(/\./g, '')) || 1200000;
         const img1 = document.querySelector('[data-img-key="room-img-1"]')?.getAttribute("src") || "assets/room_forest.jpg";
         
         // Dam Da Cabin
-        const name2 = document.querySelector('[data-key="room-name-2"]')?.innerText || "Đầm Đa Lake Cabin";
+        const name2 = document.querySelector('[data-key="room-name-2"]')?.innerText || "Phòng Đá";
         const price2 = parseInt((document.querySelector('[data-key="room-price-2"]')?.innerText || "1.500.000").replace(/\./g, '')) || 1500000;
         const img2 = document.querySelector('[data-img-key="room-img-2"]')?.getAttribute("src") || "assets/room_lake.jpg";
 
         // Lạc Thủy Retreat
-        const name3 = document.querySelector('[data-key="room-name-3"]')?.innerText || "Lạc Thủy Retreat";
+        const name3 = document.querySelector('[data-key="room-name-3"]')?.innerText || "Phòng Cá";
         const price3 = parseInt((document.querySelector('[data-key="room-price-3"]')?.innerText || "1.800.000").replace(/\./g, '')) || 1800000;
         const img3 = document.querySelector('[data-img-key="room-img-3"]')?.getAttribute("src") || "assets/hero_homestay.jpg";
 
