@@ -791,6 +791,139 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ----------------------------------------------------
+    // NEW FEATURE 1: LOGO IMAGE EDIT HANDLER
+    // ----------------------------------------------------
+    const adminChangeLogoBtn = document.getElementById("admin-change-logo-btn");
+    const logoImgWrapper = document.querySelector(".logo-img-wrapper");
+    const logoImgEl = document.querySelector('[data-img-key="logo-image"]');
+
+    function handleLogoImageUpload(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        const pickMethod = confirm("Bạn muốn Tải Logo mới từ máy tính (bấm OK) hay Nhập Link ảnh Logo online (bấm Cancel)?");
+        if (pickMethod) {
+            activeImageEditTarget = {
+                successCallback: (compressedDataUrl) => {
+                    if (logoImgEl) logoImgEl.setAttribute("src", compressedDataUrl);
+                    saveContentToLocalStorage();
+                    showToast("🎉 Đã đổi Logo Homestay mới thành công!");
+                }
+            };
+            if (adminFilePicker) adminFilePicker.click();
+        } else {
+            const currentSrc = logoImgEl ? logoImgEl.getAttribute("src") : "";
+            const newUrl = prompt("Nhập đường dẫn/link ảnh Logo mới:", currentSrc);
+            if (newUrl && newUrl.trim() !== "") {
+                if (logoImgEl) logoImgEl.setAttribute("src", newUrl.trim());
+                saveContentToLocalStorage();
+                showToast("🎉 Đã đổi Logo Homestay mới thành công!");
+            }
+        }
+    }
+
+    if (adminChangeLogoBtn) {
+        adminChangeLogoBtn.addEventListener("click", handleLogoImageUpload);
+    }
+    if (logoImgWrapper) {
+        logoImgWrapper.addEventListener("click", (e) => {
+            if (body.classList.contains("admin-mode-active")) {
+                handleLogoImageUpload(e);
+            }
+        });
+    }
+
+    // ----------------------------------------------------
+    // NEW FEATURE 2: HERO BANNER FONT-SIZE RESIZER HANDLER
+    // ----------------------------------------------------
+    const heroTitleEl = document.querySelector('[data-key="hero-title"]');
+    const fontIncreaseBtn = document.getElementById("font-increase-btn");
+    const fontDecreaseBtn = document.getElementById("font-decrease-btn");
+    const fontResetBtn = document.getElementById("font-reset-btn");
+    const fontSizeValEl = document.getElementById("font-size-val");
+
+    function updateHeroTitleFontSize(newSizePx) {
+        if (!heroTitleEl) return;
+        heroTitleEl.style.fontSize = newSizePx + "px";
+        if (fontSizeValEl) fontSizeValEl.innerText = newSizePx + "px";
+        saveContentToLocalStorage();
+    }
+
+    if (fontIncreaseBtn && heroTitleEl) {
+        fontIncreaseBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const currentSize = parseFloat(window.getComputedStyle(heroTitleEl).fontSize) || 44;
+            const newSize = Math.min(Math.round(currentSize + 3), 96);
+            updateHeroTitleFontSize(newSize);
+            showToast(`🔍 Đã tăng cỡ chữ Banner: ${newSize}px`);
+        });
+    }
+
+    if (fontDecreaseBtn && heroTitleEl) {
+        fontDecreaseBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const currentSize = parseFloat(window.getComputedStyle(heroTitleEl).fontSize) || 44;
+            const newSize = Math.max(Math.round(currentSize - 3), 16);
+            updateHeroTitleFontSize(newSize);
+            showToast(`🔍 Đã thu nhỏ cỡ chữ Banner: ${newSize}px`);
+        });
+    }
+
+    if (fontResetBtn && heroTitleEl) {
+        fontResetBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            heroTitleEl.style.fontSize = "";
+            if (fontSizeValEl) fontSizeValEl.innerText = "Cỡ chữ chuẩn";
+            saveContentToLocalStorage();
+            showToast("Đã đặt lại cỡ chữ mặc định.");
+        });
+    }
+
+    // ----------------------------------------------------
+    // NEW FEATURE 3: VISITOR EXPERIENCE PHOTO UPLOAD HANDLER
+    // ----------------------------------------------------
+    const visitorUploadBtn = document.getElementById("visitor-upload-photo-btn");
+    if (visitorUploadBtn) {
+        visitorUploadBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const dataContainer = document.getElementById("gallery-data-container");
+            if (!dataContainer) return;
+
+            let images = [];
+            try {
+                images = JSON.parse(dataContainer.innerText) || [];
+            } catch(err) {
+                images = ["assets/room_forest.jpg", "assets/room_lake.jpg", "assets/room_zen.jpg"];
+            }
+
+            const pickMethod = confirm("Bạn muốn Tải ảnh từ máy tính lên (bấm OK) hay Nhập Link ảnh online (bấm Cancel)?");
+            
+            if (pickMethod) {
+                activeImageEditTarget = {
+                    successCallback: (compressedDataUrl) => {
+                        images.push(compressedDataUrl);
+                        dataContainer.innerText = JSON.stringify(images);
+                        saveContentToLocalStorage();
+                        initExperienceSlider();
+                        showToast("🎉 Cảm ơn bạn đã tải lên ảnh trải nghiệm tại Homestay!");
+                    }
+                };
+                if (adminFilePicker) adminFilePicker.click();
+            } else {
+                const newUrl = prompt("Nhập link ảnh trải nghiệm của bạn:");
+                if (newUrl && newUrl.trim() !== "") {
+                    images.push(newUrl.trim());
+                    dataContainer.innerText = JSON.stringify(images);
+                    saveContentToLocalStorage();
+                    initExperienceSlider();
+                    showToast("🎉 Cảm ơn bạn đã chia sẻ ảnh trải nghiệm tại Homestay!");
+                }
+            }
+        });
+    }
+
+    // ----------------------------------------------------
     // 13. ADMIN FUNCTIONS (INLINE EDIT & SERIALIZE)
     // ----------------------------------------------------
     function enableAdminMode(showWelcome = false) {
@@ -964,6 +1097,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const urlMatch = el.style.backgroundImage.match(/url\(['""]?([^'""]+?)['""]?\)/);
             if (urlMatch) imageData[key] = urlMatch[1];
         });
+
+        // Save hero title font size
+        const heroTitleFont = document.querySelector('[data-key="hero-title"]')?.style.fontSize;
+        if (heroTitleFont) {
+            contentData["hero-title-fontsize"] = heroTitleFont;
+        }
+
         return { contentData, imageData };
     }
 
@@ -1077,6 +1217,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     el.innerHTML = contentData[key];
                 }
             });
+
+            // Restore custom hero title font size
+            if (contentData["hero-title-fontsize"]) {
+                const heroTitleEl = document.querySelector('[data-key="hero-title"]');
+                if (heroTitleEl) {
+                    heroTitleEl.style.fontSize = contentData["hero-title-fontsize"];
+                    const fontSizeValEl = document.getElementById("font-size-val");
+                    if (fontSizeValEl) fontSizeValEl.innerText = contentData["hero-title-fontsize"];
+                }
+            }
+
             syncClickableLinks();
         }
 
