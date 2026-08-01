@@ -1,5 +1,5 @@
 /* app.js */
-/* Logic và Tương tác Tối giản & Tính năng Quản trị cho Amani Lạc Thủy */
+/* Logic và Tương tác Tối giản & Tính năng Quản trị cho Tĩnh HomeStay Lạc Lương */
 
 // ----------------------------------------------------
 // 1. DATA ROOMS - DỮ LIỆU PHÒNG MẶC ĐỊNH
@@ -35,7 +35,7 @@ let ROOMS_DATA = {
         guests: "Tối đa 4 người lớn (hoặc gia đình)",
         bed: "02 Giường đôi cỡ lớn",
         view: "View thung lũng & núi rừng biệt lập",
-        desc: "Lạc Thủy Retreat là sự kết hợp đầy nghệ thuật giữa nhà sàn Mường cổ điển với phong cách kiến trúc Brutalist tối giản hiện đại. Ngôi nhà được dựng từ khung gỗ lũa rắn chắc và những mảng tường đá cuội sông mát lạnh vào mùa hè, ấm áp vào mùa đông. Một không gian hoàn toàn riêng tư với lò sưởi đốt củi thật, thích hợp cho nhóm bạn thân hoặc gia đình nhỏ muốn tìm về sự ấm cúng, kết nối.",
+        desc: "Lạc Lương Retreat là sự kết hợp đầy nghệ thuật giữa nhà sàn Mường cổ điển với phong cách kiến trúc Brutalist tối giản hiện đại. Ngôi nhà được dựng từ khung gỗ lũa rắn chắc và những mảng tường đá cuội sông mát lạnh vào mùa hè, ấm áp vào mùa đông. Một không gian hoàn toàn riêng tư với lò sưởi đốt củi thật, thích hợp cho nhóm bạn thân hoặc gia đình nhỏ muốn tìm về sự ấm cúng, kết nối.",
         amenities: ["Lò sưởi củi tự nhiên", "Khuôn viên nướng BBQ", "Bếp nấu gia đình", "Sân hiên trà chiều", "Hệ thống âm thanh Marshall", "2 Phòng ngủ biệt lập", "Bồn tắm gỗ Pơ-mu"]
     },
     "phong-cay": {
@@ -46,7 +46,7 @@ let ROOMS_DATA = {
         guests: "Tối đa 2 người lớn",
         bed: "01 Giường King-size",
         view: "View thung lũng & giữa những tán cây cổ thụ",
-        desc: "Phòng Cây là một thiết kế cabin tổ chim độc đáo nép mình giữa những tán cây cổ thụ Hòa Bình rộng lớn. Căn phòng mở ra một tầm nhìn Panorama hướng trọn thung lũng đá vôi sương mờ. Nơi lý tưởng để bạn tận hưởng những buổi chiều lộng gió trên ban công treo lơ lửng giữa mây trời và lá cây xanh mướt.",
+        desc: "Phòng Cây là một thiết kế cabin tổ chim độc đáo nép mình giữa những tán cây cổ thụ Phú Thọ rộng lớn. Căn phòng mở ra một tầm nhìn Panorama hướng trọn thung lũng đá vôi sương mờ. Nơi lý tưởng để bạn tận hưởng những buổi chiều lộng gió trên ban công treo lơ lửng giữa mây trời và lá cây xanh mướt.",
         amenities: ["Ban công riêng lơ lửng", "View tán lá rừng", "Wi-Fi miễn phí", "Điều hòa hai chiều", "Bồn tắm đứng", "Trà & Cà phê hữu cơ"]
     },
     "nha-san-cong-dong": {
@@ -57,7 +57,7 @@ let ROOMS_DATA = {
         guests: "Tối đa 15 người lớn",
         bed: "15 Đệm Futon truyền thống",
         view: "View toàn cảnh thung lũng",
-        desc: "Nhà sàn cộng đồng tái hiện nguyên bản kiến trúc nhà sàn truyền thống của người Mường Lạc Thủy, sử dụng hoàn toàn từ cột gỗ lũa nguyên khối lớn và mái lá cọ mát rượi. Với diện tích sử dụng rộng rãi, ngôi nhà được trang bị đầy đủ chăn ga gối đệm êm ái, bồn rửa chung tiện lợi, là địa điểm hoàn hảo cho các hoạt động gia đình lớn hay teambuilding.",
+        desc: "Nhà sàn cộng đồng tái hiện nguyên bản kiến trúc nhà sàn truyền thống của người Mường Lạc Lương, sử dụng hoàn toàn từ cột gỗ lũa nguyên khối lớn và mái lá cọ mát rượi. Với diện tích sử dụng rộng rãi, ngôi nhà được trang bị đầy đủ chăn ga gối đệm êm ái, bồn rửa chung tiện lợi, là địa điểm hoàn hảo cho các hoạt động gia đình lớn hay teambuilding.",
         amenities: ["Nhà sàn truyền thống rộng", "Khu sinh hoạt chung lớn", "Bếp nướng BBQ ngoài trời", "Bồn rửa & Vệ sinh riêng", "Hệ thống âm thanh Marshall", "Wi-Fi tốc độ cao"]
     }
 };
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <li><i class="fa-solid fa-maximize"></i> Diện tích: ${roomData.size}</li>
                                     <li><i class="fa-solid fa-user-group"></i> Sức chứa: ${roomData.guests}</li>
                                     <li><i class="fa-solid fa-bed"></i> Giường ngủ: ${roomData.bed}</li>
-                                    <li><i class="fa-solid fa-location-dot"></i> Địa điểm: Lạc Thủy, Hòa Bình</li>
+                                    <li><i class="fa-solid fa-location-dot"></i> Địa điểm: Lạc Lương, Phú Thọ</li>
                                 </ul>
                             </div>
                             
@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Formatted details to send directly
             const formattedText = `Xin chào Tĩnh Homestay, tôi muốn gửi yêu cầu liên hệ:\n- Họ tên: ${name}\n- SĐT: ${phone}\n- Email: ${email}\n- Tin nhắn: ${msg}`;
-            const targetPhone = "0934338765";
+            const targetPhone = "0968450499";
 
             const formData = new FormData(contactForm);
             
@@ -783,9 +783,9 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Update page title if they edit the logo
             if (key === "logo-serif" || key === "logo-sans") {
-                const serif = document.querySelector('[data-key="logo-serif"]')?.innerText || "Amani";
-                const sans = document.querySelector('[data-key="logo-sans"]')?.innerText || "Lạc Thủy";
-                document.title = `${serif}${sans} - nghỉ dưỡng đơn giản tại LẠC THỦY`;
+                const serif = document.querySelector('[data-key="logo-serif"]')?.innerText || "Tĩnh HomeStay";
+                const sans = document.querySelector('[data-key="logo-sans"]')?.innerText || "Lạc Lương";
+                document.title = `${serif}${sans} - nghỉ dưỡng đơn giản tại Lạc Lương - Phú Thọ`;
             }
         });
     });
@@ -1267,7 +1267,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const price2 = parseInt((document.querySelector('[data-key="room-price-2"]')?.innerText || "1.500.000").replace(/\./g, '')) || 1500000;
         const img2 = document.querySelector('[data-img-key="room-img-2"]')?.getAttribute("src") || "assets/room_lake.jpg";
 
-        // Lạc Thủy Retreat
+        // Lạc Lương Retreat
         const name3 = document.querySelector('[data-key="room-name-3"]')?.innerText || "Phòng Cá";
         const price3 = parseInt((document.querySelector('[data-key="room-price-3"]')?.innerText || "1.800.000").replace(/\./g, '')) || 1800000;
         const img3 = document.querySelector('[data-img-key="room-img-3"]')?.getAttribute("src") || "assets/hero_homestay.jpg";
@@ -1672,12 +1672,11 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("Đã tải tệp index.html mới về máy.");
     }
 
-    // Direct 1-Click Cloud Sync to GitHub -> Netlify (Git Data API - Supports any file size)
+    // Direct 1-Click Cloud Sync to GitHub -> Netlify (Contents API - 100% Reliable & Fast)
     async function syncToGitHubDirectly() {
         showToast("⏳ Đang đồng bộ tự động lên Server Web công khai...");
         const htmlContent = getCleanHTMLString();
 
-        // RFC-compliant UTF-8 Base64 encoder
         function utf8_to_b64(str) {
             return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
                 return String.fromCharCode('0x' + p1);
@@ -1691,79 +1690,36 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json",
             "Accept": "application/vnd.github.v3+json"
         };
+        const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/index.html`;
 
         try {
-            // 1. Create Git Blob
-            const blobRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/blobs`, {
-                method: "POST",
+            // Get SHA of current index.html
+            let sha = null;
+            try {
+                const getRes = await fetch(apiUrl + "?ref=main", { headers });
+                if (getRes.ok) {
+                    const info = await getRes.json();
+                    sha = info.sha;
+                }
+            } catch (_) {}
+
+            const body = {
+                message: "Admin Live 1-Click Sync: update index.html",
+                content: utf8_to_b64(htmlContent),
+                branch: "main"
+            };
+            if (sha) body.sha = sha;
+
+            const putRes = await fetch(apiUrl, {
+                method: "PUT",
                 headers: headers,
-                body: JSON.stringify({
-                    content: utf8_to_b64(htmlContent),
-                    encoding: "base64"
-                })
-            });
-            if (!blobRes.ok) throw new Error("Lỗi tạo Blob trên GitHub");
-            const blobData = await blobRes.json();
-            const blobSha = blobData.sha;
-
-            // 2. Get latest commit SHA on main
-            const refRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/ref/heads/main`, { headers });
-            if (!refRes.ok) throw new Error("Lỗi lấy thông tin nhánh main");
-            const refData = await refRes.json();
-            const latestCommitSha = refData.object.sha;
-
-            // 3. Get commit tree SHA
-            const commitRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/commits/${latestCommitSha}`, { headers });
-            if (!commitRes.ok) throw new Error("Lỗi đọc commit gần nhất");
-            const commitData = await commitRes.json();
-            const baseTreeSha = commitData.tree.sha;
-
-            // 4. Create new Git Tree
-            const treeRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/trees`, {
-                method: "POST",
-                headers: headers,
-                body: JSON.stringify({
-                    base_tree: baseTreeSha,
-                    tree: [{
-                        path: "index.html",
-                        mode: "100644",
-                        type: "blob",
-                        sha: blobSha
-                    }]
-                })
-            });
-            if (!treeRes.ok) throw new Error("Lỗi tạo Git Tree");
-            const treeData = await treeRes.json();
-            const newTreeSha = treeData.sha;
-
-            // 5. Create new Git Commit
-            const newCommitRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/commits`, {
-                method: "POST",
-                headers: headers,
-                body: JSON.stringify({
-                    message: "Admin Live Auto-Sync: update index.html",
-                    tree: newTreeSha,
-                    parents: [latestCommitSha]
-                })
-            });
-            if (!newCommitRes.ok) throw new Error("Lỗi tạo Commit mới");
-            const newCommitData = await newCommitRes.json();
-            const newCommitSha = newCommitData.sha;
-
-            // 6. Update main branch ref
-            const updateRefRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/refs/heads/main`, {
-                method: "PATCH",
-                headers: headers,
-                body: JSON.stringify({
-                    sha: newCommitSha,
-                    force: true
-                })
+                body: JSON.stringify(body)
             });
 
-            if (updateRefRes.ok) {
+            if (putRes.ok) {
                 showToast("🎉 ĐỒNG BỘ NỘI DUNG THÀNH CÔNG! Điện thoại & PC sẽ hiển thị bản mới sau 20-30s!");
             } else {
-                throw new Error("Lỗi cập nhật nhánh main");
+                throw new Error("Lỗi lưu file index.html (" + putRes.status + ")");
             }
         } catch (err) {
             console.error("Auto Sync Error:", err);
